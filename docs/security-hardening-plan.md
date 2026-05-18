@@ -2,7 +2,7 @@
 
 > **Purpose:** Task tracking, PR sequencing, and session recovery for non-breaking security hardening of UI/UX Pro Max.
 >
-> **Last updated:** 2026-05-18 (Phase 0 complete)  
+> **Last updated:** 2026-05-18 (workflow: single upstream PR when plan complete)  
 > **Owner:** _(assign name)_  
 > **Branch convention:** `feat/security-hardening-*` or `test/characterization-baseline` — never commit directly to `main`.
 
@@ -19,24 +19,52 @@
    ```
 3. **Find the first unchecked task** in [Task backlog](#task-backlog) whose dependencies are done.
 4. **Update this file** when you start or finish a task (checkbox + `Last completed task` + date).
-5. **Open the linked PR** in the task row if work is in flight on a branch.
+5. **Do not open upstream PRs** until [Final upstream PR](#final-upstream-pr) checklist is complete (phases 0–6 done, `make test` green).
 
 ### Session state (update every time you stop)
 
 | Field | Value |
 |-------|--------|
-| **Current focus** | **PR-1** Phase 1 goldens — open PR after PR-0 merges (or stack on fork) |
-| **Last completed task** | **T-016** — Phase 1 complete on `test/phase-1-golden-fixtures` (2026-05-18) |
-| **Active branch** | `test/phase-1-golden-fixtures` (from Phase 0 branch) |
-| **Active PR** | PR-0: #313 · PR-1: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/314 |
-| **Blockers** | Prefer PR-0 merge first; Phase 1 branch includes Phase 0 commits until rebased |
-| **Notes for next session** | `make test` (24 Python + 4 CLI). Regenerate goldens: `python3 scripts/regenerate_goldens.py`. Next: open PR-1 or rebase onto upstream `main` after #313 merges. |
+| **Current focus** | **Phase 2** — path jail (`T-020`+) on integration branch |
+| **Last completed task** | **T-016** — Phase 1 complete (2026-05-18) |
+| **Integration branch** | `feat/security-hardening` _(consolidate all phases here)_ |
+| **Upstream PR** | **Not opened yet** — finish plan locally first |
+| **Blockers** | none |
+| **Notes for next session** | Workflow: no upstream PR until phases 0–6 done. Early #313/#314 may be closed as draft. Continue on `feat/security-hardening` or merge phase branches locally. `make test` must stay green each phase. |
 
 ### Quick context
 
 - **Security review summary:** Core search is read-only CSV + BM25; no malware found. Risks: path traversal on `--persist`, shell in legacy ZIP extract, optional Gemini/`npx`, CSV prompt-injection (agent-level).
 - **Remediation principle:** Fail safe on bad paths; no change for valid inputs; fix `src/ui-ux-pro-max/` then sync `cli/assets/`.
-- **Testing principle:** Characterization/golden tests **before** hardening; security-negative tests **with** each hardening PR.
+- **Testing principle:** Characterization/golden tests **before** hardening; security-negative tests **with** each hardening phase (same branch).
+- **Upstream PR principle:** Complete phases **locally** on one integration branch; open **one** well-structured PR to upstream when the full plan is done (see below).
+
+---
+
+## Workflow: local phases, single upstream PR
+
+Phases 0–6 are **internal milestones** for task tracking and commit discipline—not separate upstream PRs.
+
+| Stage | What you do | Push to fork? |
+|-------|-------------|---------------|
+| **During work** | Implement phase by phase; commit on `feat/security-hardening` (or merge phase branches locally) | Optional: push fork branch for backup only |
+| **Per phase** | Run `make test`; update task table + session state | No upstream PR required |
+| **Plan complete** | Rebase on upstream `main`; one PR body covering all phases | **Yes** — single PR to `nextlevelbuilder/ui-ux-pro-max-skill` |
+
+**Why:** Upstream is not your repo; one complete, reviewable PR reduces noise and makes the full security + test story easier to accept.
+
+**Early PRs (#313, #314):** If already opened, close as **draft** or close with a short comment (“consolidating into single PR when plan complete”)—not required for local progress.
+
+### Integration branch setup
+
+```bash
+git fetch origin
+git checkout -b feat/security-hardening origin/main
+# merge or cherry-pick completed phase work:
+# git merge test/phase-0-harness-and-contributing
+# git merge test/phase-1-golden-fixtures
+# continue Phase 2–6 on feat/security-hardening
+```
 
 ---
 
@@ -54,15 +82,16 @@
 
 ## Phase overview
 
-| Phase | Goal | PR(s) | Depends on |
-|-------|------|-------|------------|
-| **0** | Test harness + CI that runs | PR-0 | — |
-| **1** | Characterization / golden baseline (no hardening) | PR-1 | Phase 0 |
-| **2** | Path jail for `--persist` | PR-2 | Phase 1 |
-| **3** | CLI extract hardening (no shell) | PR-3 | Phase 1 |
-| **4** | Brand sync `execFile` | PR-4 | Phase 0 |
-| **5** | Optional tools (shadcn allowlist, SVG sanitize) | PR-5 | Phase 1 (partial) |
-| **6** | Documentation & process | PR-6 | Any |
+| Phase | Goal | Upstream PR | Depends on |
+|-------|------|-------------|------------|
+| **0** | Test harness + CI that runs | _(local)_ | — |
+| **1** | Characterization / golden baseline (no hardening) | _(local)_ | Phase 0 |
+| **2** | Path jail for `--persist` | _(local)_ | Phase 1 |
+| **3** | CLI extract hardening (no shell) | _(local)_ | Phase 1 |
+| **4** | Brand sync `execFile` | _(local)_ | Phase 0 |
+| **5** | Optional tools (shadcn allowlist, SVG sanitize) | _(local)_ | Phase 1 (partial) |
+| **6** | Documentation & process | _(local)_ | Any |
+| **Final** | Open **one** upstream PR | **PR-FINAL** | Phases 0–6 ✅ |
 
 ```mermaid
 flowchart LR
@@ -105,7 +134,7 @@ flowchart LR
 | T-015 | ✅ | CLI: `generatePlatformFiles` smoke (temp dir) | Expected folders + SKILL.md exist | Same file (template install path) |
 | T-016 | ✅ | `make test-golden` runs golden suite | Documented in CONTRIBUTING | `Makefile` |
 
-**Phase 1 exit:** PR-1 open / merge pending; goldens locked in branch. **Do not merge hardening before this.**
+**Phase 1 exit:** Goldens locked on integration branch. **Do not start hardening (Phase 2) before Phase 1 tests pass.**
 
 ---
 
@@ -186,46 +215,53 @@ flowchart LR
 
 ---
 
-## Opening PRs (contributors)
+## Final upstream PR
 
-This initiative uses the **same PR standards as the rest of the repo**. Read these before opening a PR:
+Open **only when phases 0–6 are complete** (or 0–4 + 6 if Phase 5 skipped with reason in Decisions log).
 
 | Resource | Purpose |
 |----------|---------|
-| [CONTRIBUTING.md](../CONTRIBUTING.md) | Fork workflow, branch names, sync rules, review expectations |
-| [.github/pull_request_template.md](../.github/pull_request_template.md) | Auto-filled PR body (GitHub) — **do not strip sections** |
-| This plan | Phase boundaries, task IDs (`T-xxx`), one phase per PR |
+| [CONTRIBUTING.md](../CONTRIBUTING.md) | Fork workflow, PR template, general repo rules |
+| [.github/pull_request_template.md](../.github/pull_request_template.md) | Auto-filled PR body — **do not strip sections** |
+| This plan | Task IDs completed; phase summary for reviewers |
 
-**Upstream:** `nextlevelbuilder/ui-ux-pro-max-skill` — use a **fork**, branch off `main`, never push directly to upstream `main`.
+**Suggested title (single PR):**
 
-**Suggested titles:**
+`test+fix(security): hardening, golden tests, CI, and contributor docs`
 
-| PR | Example title |
-|----|----------------|
-| PR-0 | `test: Phase 0 — pytest and Bun harness + CI` |
-| PR-1 | `test: Phase 1 — golden fixtures for search and persist` |
-| PR-2 | `fix(security): Phase 2 — path jail for design-system persist` |
-| PR-3 | `fix(security): Phase 3 — CLI extract without shell` |
+**Suggested PR structure (sections in description):**
 
-After GitHub **branch protection** is enabled (post PR-0 merge), require the **Test** workflow on `main`.
+1. **Summary** — Full initiative in 3–5 sentences  
+2. **Phases delivered** — Table: Phase → what changed → task IDs  
+3. **Security fixes** — Path jail, CLI extract, brand execFile, optional Phase 5  
+4. **Test plan** — `make test`, golden/security test paths  
+5. **Breaking / behavior** — Explicitly “non-breaking for valid inputs”  
+6. **Review guide** — Order of files to read  
 
----
+After merge, ask maintainers to enable branch protection requiring **Test** on `main`.
 
-## PR checklist (copy per PR)
-
-Full template: [.github/pull_request_template.md](../.github/pull_request_template.md). Quick list:
+### Final upstream PR checklist
 
 ```markdown
-## PR: _title_
+- [ ] All phases 0–6 complete (or 5 skipped with note)
+- [ ] Branch `feat/security-hardening` rebased on latest upstream `main`
+- [ ] `make test` green locally
+- [ ] `cli/assets/` synced if `src/ui-ux-pro-max/` changed
+- [ ] PR body lists every completed T-xxx ID
+- [ ] Golden updates explained (if any fixture changed in Phase 2+)
+- [ ] Session state in this plan marked COMPLETE
+- [ ] Early draft PRs #313 / #314 closed or superseded (if applicable)
+```
 
-- [ ] Branch from latest `main` (not direct to upstream main)
-- [ ] PR body uses template (Summary, Scope, Test plan, Checklist)
-- [ ] Task IDs: _e.g. T-020, T-021_
-- [ ] Tests added/updated
-- [ ] `make test` or CI **Test** workflow green
-- [ ] If `src/ui-ux-pro-max/` data/scripts changed → synced `cli/assets/`
-- [ ] Goldens updated only if intentional (explain in PR body)
-- [ ] Updated **Session state** in this file (or PR links task IDs)
+### Per-phase commit checklist (local only)
+
+Use while working—**no upstream PR per phase**:
+
+```markdown
+- [ ] Phase N tasks checked in this plan
+- [ ] `make test` green
+- [ ] Commit on integration branch with message: test|fix: Phase N — <short description>
+- [ ] Session state updated
 ```
 
 ---
@@ -279,6 +315,7 @@ Record irreversible choices here so future sessions don’t re-debate.
 |------|----------|-----------|
 | 2026-05-18 | Characterization before hardening | Prevent accidental behavior drift |
 | 2026-05-18 | No mandatory ZIP checksum until upstream publishes | Non-breaking |
+| 2026-05-18 | **Single upstream PR** when plan complete (not per-phase PRs) | Less maintainer noise; full story in one review |
 | _…_ | _…_ | _…_ |
 
 ---

@@ -46,19 +46,11 @@ GitHub pre-fills this from [.github/pull_request_template.md](./.github/pull_req
 
 ### Security hardening initiative
 
-Use **one plan phase per PR** unless a maintainer agrees otherwise:
+Follow [docs/security-hardening-plan.md](./docs/security-hardening-plan.md).
 
-| PR | Phase | Typical contents |
-|----|-------|------------------|
-| PR-0 | 0 | Pytest + Bun harness, CI |
-| PR-1 | 1 | Golden / characterization tests only |
-| PR-2 | 2 | Path jail for `--persist` |
-| PR-3 | 3 | CLI extract hardening |
-| PR-4 | 4 | Brand script `execFile` |
-| PR-5 | 5 | Optional (shadcn allowlist, SVG sanitize) |
-| PR-6 | 6 | `SECURITY.md`, docs |
+**Default for this initiative:** implement phases 0–6 **locally** on one branch (`feat/security-hardening`), run `make test` after each phase, and open **one upstream PR** when the full plan is complete. Phases are for task tracking and commits—not separate upstream PRs unless a maintainer asks to split.
 
-Reference task IDs (`T-010`, etc.) from the plan in the PR description.
+In that single PR, include a **phases delivered** table and list all completed task IDs (`T-001`, `T-010`, etc.).
 
 ## Development setup
 
