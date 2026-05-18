@@ -25,12 +25,12 @@
 
 | Field | Value |
 |-------|--------|
-| **Current focus** | **T-010** — golden search fixtures (Phase 1) |
-| **Last completed task** | **T-005** — Phase 0 complete (2026-05-18) |
-| **Active branch** | _(set when PR opened)_ |
-| **Active PR** | none |
-| **Blockers** | none |
-| **Notes for next session** | PR standards: [CONTRIBUTING.md](../CONTRIBUTING.md) + [.github/pull_request_template.md](../.github/pull_request_template.md). Run `make test` (needs `pip install -e ".[test]"` + [Bun](https://bun.sh)). Next: **T-010** goldens. Open **PR-0** before Phase 1 if not merged yet. |
+| **Current focus** | **PR-0** awaiting review / merge — then **T-010** (Phase 1 goldens) |
+| **Last completed task** | **T-005** — Phase 0 committed; PR opened (2026-05-18) |
+| **Active branch** | `test/phase-0-harness-and-contributing` (fork: `ChrisFab16`) |
+| **Active PR** | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/313 |
+| **Blockers** | none — wait for CI + maintainer review |
+| **Notes for next session** | Fork: `git remote add fork https://github.com/ChrisFab16/ui-ux-pro-max-skill.git`. After PR #313 merges: branch protection on **Test**; start Phase 1 on new branch from upstream `main`. |
 
 ### Quick context
 
