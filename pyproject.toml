@@ -12,5 +12,8 @@ test = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests/python"]
-pythonpath = ["src/ui-ux-pro-max/scripts"]
+pythonpath = ["src/ui-ux-pro-max/scripts", "tests/python"]
 addopts = "-ra"
+markers = [
+  "golden: frozen characterization fixtures (see scripts/regenerate_goldens.py)",
+]

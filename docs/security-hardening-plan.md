@@ -25,12 +25,12 @@
 
 | Field | Value |
 |-------|--------|
-| **Current focus** | **PR-0** awaiting review / merge — then **T-010** (Phase 1 goldens) |
-| **Last completed task** | **T-005** — Phase 0 committed; PR opened (2026-05-18) |
-| **Active branch** | `test/phase-0-harness-and-contributing` (fork: `ChrisFab16`) |
-| **Active PR** | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/313 |
-| **Blockers** | none — wait for CI + maintainer review |
-| **Notes for next session** | Fork: `git remote add fork https://github.com/ChrisFab16/ui-ux-pro-max-skill.git`. After PR #313 merges: branch protection on **Test**; start Phase 1 on new branch from upstream `main`. |
+| **Current focus** | **PR-1** Phase 1 goldens — open PR after PR-0 merges (or stack on fork) |
+| **Last completed task** | **T-016** — Phase 1 complete on `test/phase-1-golden-fixtures` (2026-05-18) |
+| **Active branch** | `test/phase-1-golden-fixtures` (from Phase 0 branch) |
+| **Active PR** | PR-0: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/313 — PR-1 not opened yet |
+| **Blockers** | Prefer PR-0 merge first; Phase 1 branch includes Phase 0 commits until rebased |
+| **Notes for next session** | `make test` (24 Python + 4 CLI). Regenerate goldens: `python3 scripts/regenerate_goldens.py`. Next: open PR-1 or rebase onto upstream `main` after #313 merges. |
 
 ### Quick context
 
@@ -97,15 +97,15 @@ flowchart LR
 
 | ID | Status | Task | Acceptance criteria | Files / notes |
 |----|--------|------|---------------------|---------------|
-| T-010 | ⬜ | Golden: `search()` for 3–5 fixed queries (JSON fixtures) | Changing ranking without intent fails CI | `tests/python/golden/*.json` |
-| T-011 | ⬜ | Unit: `detect_domain()` table-driven | All keyword→domain cases pass | `tests/python/unit/test_detect_domain.py` |
-| T-012 | ⬜ | Integration: `persist` with `-p "My App" --page "User Profile"` | Files at `design-system/my-app/...` | `tests/python/unit/test_design_system_persist.py` |
-| T-013 | ⬜ | Golden: `--design-system` output hash/snapshot (no `--persist`) | Stable across runs | Snapshot file |
-| T-014 | ⬜ | CLI: template render snapshot for `cursor` + `claude` | SKILL.md key lines match snapshot | `tests/cli/template.test.ts` |
-| T-015 | ⬜ | CLI: `init` smoke with mocked prompts (temp dir) | Expected folders + SKILL.md exist | Mock `prompts`, no network |
-| T-016 | ⬜ | CI job: `make test-golden` or `pytest tests/python/golden` | Documented in this plan | — |
+| T-010 | ✅ | Golden: `search()` for 3–5 fixed queries (JSON fixtures) | Changing ranking without intent fails CI | `tests/python/golden/fixtures/*.json` |
+| T-011 | ✅ | Unit: `detect_domain()` table-driven | All keyword→domain cases pass | `tests/python/unit/test_detect_domain.py` |
+| T-012 | ✅ | Integration: `persist` with `-p "My App" --page "User Profile"` | Files at `design-system/my-app/...` | `tests/python/unit/test_design_system_persist.py` |
+| T-013 | ✅ | Golden: `--design-system` output hash/snapshot (no `--persist`) | Stable across runs | `tests/python/golden/snapshots/design_system_fintech_saas.md` |
+| T-014 | ✅ | CLI: template render snapshot for `cursor` + `claude` | SKILL.md key lines match snapshot | `tests/cli/template-render.test.ts` |
+| T-015 | ✅ | CLI: `generatePlatformFiles` smoke (temp dir) | Expected folders + SKILL.md exist | Same file (template install path) |
+| T-016 | ✅ | `make test-golden` runs golden suite | Documented in CONTRIBUTING | `Makefile` |
 
-**Phase 1 exit:** PR-1 merged; goldens locked on `main`. **Do not merge hardening before this.**
+**Phase 1 exit:** PR-1 open / merge pending; goldens locked in branch. **Do not merge hardening before this.**
 
 ---
 

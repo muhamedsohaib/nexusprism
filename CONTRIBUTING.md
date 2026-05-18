@@ -90,6 +90,15 @@ make test-cli
 make test
 ```
 
+### Regenerate golden fixtures
+
+After intentional search ranking or CSV changes:
+
+```bash
+python3 scripts/regenerate_goldens.py
+pytest tests/python/golden -v
+```
+
 CI runs the same via [.github/workflows/test.yml](./.github/workflows/test.yml).
 
 ## Syncing `cli/assets/` (required for many changes)
