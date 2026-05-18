@@ -15,7 +15,7 @@ This repository ships:
 | CSV / SKILL.md in repo | Trusted after review | Treat data PRs like code; avoid agent-directed instructions in CSV cells |
 | `python search.py` | Local read-only | No network; optional `--persist` writes under `design-system/` only (path-jailed) |
 | `uipro init` (default) | Bundled templates | No remote download |
-| `uipro init --legacy` | GitHub release ZIP | No checksum verification today; use only if you trust the release |
+| `uipro init --legacy` | GitHub release ZIP | Verifies SHA-256 when release publishes `SHA256SUMS` or `*.zip.sha256`; otherwise warns and downloads unverified |
 | Gemini scripts | Third-party API | Prompts and images leave your machine; scope API keys |
 | `shadcn_add.py` | `npx shadcn@latest` | Runs remote packages; component names allowlisted |
 

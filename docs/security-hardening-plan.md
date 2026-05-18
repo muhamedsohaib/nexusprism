@@ -160,9 +160,9 @@ flowchart LR
 | T-030 | ✅ | Replace `exec` string unzip with `execFile` + argv | No shell metachar in command string | `cli/src/utils/extract.ts` |
 | T-031 | ✅ | Validate `zipPath` / `destDir` before extract | Absolute paths; zip exists | Same |
 | T-032 | ✅ | Tests assert no shell unzip / copy | Source + structure checks | `tests/cli/extract.test.ts` |
-| T-033 | ❌ | Fixture: minimal zip in `tests/fixtures/` | Deferred — not required for argv hardening | — |
+| T-033 | ✅ | Fixture: minimal zip in `tests/fixtures/` | Extract integration test | `tests/fixtures/minimal-release.zip`, `extract.integration.test.ts` |
 | T-034 | ✅ | One-time warn on `--legacy` (stderr or ora) | Default install unchanged | `cli/src/commands/init.ts` |
-| T-035 | ❌ | _(Optional)_ Verify SHA256 when release ships checksums | Deferred — no upstream checksum file yet | — |
+| T-035 | ✅ | Verify SHA256 when release ships checksums | Skip verify if no checksum asset | `checksum.ts`, `github.ts`, `github-checksum.integration.test.ts` |
 
 **Phase 3 exit:** ✅ T-014–T-015 and T-032 green.
 
@@ -173,7 +173,7 @@ flowchart LR
 | ID | Status | Task | Acceptance criteria | Files / notes |
 |----|--------|------|---------------------|---------------|
 | T-040 | ✅ | Replace `execSync` template string with `execFileSync('node', [...])` | No shell interpolation | `.claude/skills/brand/scripts/sync-brand-to-tokens.cjs` |
-| T-041 | ❌ | Smoke test with mocked `child_process` | Deferred — low risk script | — |
+| T-041 | ✅ | Smoke test with mocked `child_process` | `runTokenCssRegeneration` injectable | `brand-sync.test.ts` |
 
 **Phase 4 exit:** ✅
 
