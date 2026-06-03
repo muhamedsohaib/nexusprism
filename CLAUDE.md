@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Antigravity Kit is an AI-powered design intelligence toolkit providing searchable databases of UI styles, color palettes, font pairings, chart types, and UX guidelines. It works as a skill/workflow for AI coding assistants (Claude Code, Windsurf, Cursor, etc.).
+UI/UX Pro Max (published as `uipro-cli` on npm, v2.5.0) is an AI-powered design intelligence toolkit: searchable CSV databases of UI styles, color palettes, font pairings, chart types, and UX guidelines, distributed as a skill/workflow for AI coding assistants (Claude Code, Cursor, Windsurf, Copilot, Kiro, RooCode, etc.).
 
 ## Search Command
 
@@ -25,7 +25,25 @@ python3 src/ui-ux-pro-max/scripts/search.py "<query>" --domain <domain> [-n <max
 ```bash
 python3 src/ui-ux-pro-max/scripts/search.py "<query>" --stack <stack>
 ```
-Available stacks: `html-tailwind` (default), `react`, `nextjs`, `astro`, `vue`, `nuxtjs`, `nuxt-ui`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`
+Available stacks: `html-tailwind` (default), `react`, `nextjs`, `astro`, `vue`, `nuxtjs`, `nuxt-ui`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`, `angular`, `laravel`, `threejs`
+
+## CLI Development (uipro-cli)
+
+The npm package lives in `cli/`. It uses **Bun** as the build tool and runtime.
+
+```bash
+cd cli
+bun install          # install dependencies
+bun run dev          # run CLI locally (src/index.ts)
+bun run build        # compile to dist/ (required before publishing)
+```
+
+The compiled entry point is `dist/index.js` (node target). Running `npx uipro-cli init` in a project invokes `cli/src/commands/init.ts`, which:
+1. Auto-detects the AI assistant by checking for `.claude`, `.cursor`, `.windsurf`, `.kiro`, etc. directories
+2. Tries to download the latest GitHub release ZIP; falls back to bundled `cli/assets/` if rate-limited or offline
+3. Copies the skill folder and generates platform-specific template files (SKILL.md, config JSONs) from `cli/src/utils/template.ts`
+
+Publishing: `npm publish` inside `cli/` — `prepublishOnly` runs `bun run build` automatically.
 
 ## Architecture
 
@@ -75,7 +93,7 @@ When modifying files:
    - `base/quick-reference.md` - Quick reference section (Claude only)
    - `platforms/*.json` - Platform-specific configs
 
-3. **CLI Assets** - Run sync before publishing:
+3. **CLI Assets** - Run sync before publishing (manual copy — no script):
    ```bash
    cp -r src/ui-ux-pro-max/data/* cli/assets/data/
    cp -r src/ui-ux-pro-max/scripts/* cli/assets/scripts/
