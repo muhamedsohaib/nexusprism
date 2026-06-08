@@ -81,9 +81,23 @@ def _discover_stack_config() -> Dict[str, Dict[str, str]]:
     Code Logic（这个函数做什么）:
         扫描 data/stacks 目录下的 CSV 文件，以文件名 stem 作为 stack 名称，生成 search_stack 使用的配置字典。
     """
+    stack_dir = DATA_DIR / "stacks"
+    if not stack_dir.is_dir():
+        raise RuntimeError(
+            f"Stack data directory not found: {stack_dir}. "
+            "Reinstall the skill or rebuild packaged assets."
+        )
+
+    stack_files = sorted(stack_dir.glob("*.csv"))
+    if not stack_files:
+        raise RuntimeError(
+            f"No stack CSV files found in: {stack_dir}. "
+            "Reinstall the skill or rebuild packaged assets."
+        )
+
     return {
         stack_file.stem: {"file": f"stacks/{stack_file.name}"}
-        for stack_file in sorted((DATA_DIR / "stacks").glob("*.csv"))
+        for stack_file in stack_files
     }
 
 

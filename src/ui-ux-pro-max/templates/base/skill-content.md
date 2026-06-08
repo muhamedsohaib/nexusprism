@@ -53,7 +53,7 @@ Extract key information from user request:
 - **Product type**: Entertainment (social, video, music, gaming), Tool (scanner, editor, converter), Productivity (task manager, notes, calendar), or hybrid
 - **Target audience**: C-end consumer users; consider age group, usage context (commute, leisure, work)
 - **Style keywords**: playful, vibrant, minimal, dark mode, content-first, immersive, etc.
-- **Stack**: Detect from the current project. If unclear, generate the design system first, then query the closest installed stack guidelines.
+- **Stack**: Choose the stack for the current project. If unclear, generate the design system first, then query the closest installed stack guidelines.
 
 ### Step 2: Generate Design System (REQUIRED)
 
@@ -139,6 +139,12 @@ Get implementation-specific best practices for the detected stack:
 python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack <stack>
 ```
 
+To list available stack names:
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py --list-stacks
+```
+
 ---
 
 ## Search Reference
@@ -189,7 +195,7 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack <stack>
 - Product type: Tool (AI search engine)
 - Target audience: C-end users looking for fast, intelligent search
 - Style keywords: modern, minimal, content-first, dark mode
-- Stack: detected from the current project
+- Stack: chosen for the current project
 
 ### Step 2: Generate Design System (REQUIRED)
 

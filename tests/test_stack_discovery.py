@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 from types import ModuleType
 import unittest
 
@@ -43,14 +46,44 @@ class StackDiscoveryTest(unittest.TestCase):
         Code Logic（这个函数做什么）:
             从 data/stacks 读取 CSV 文件 stem 集合，加载对应 core.py，断言 AVAILABLE_STACKS 与 CSV stem 完全一致。
         """
+        stack_dir = package_root / "data" / "stacks"
+        self.assertTrue(
+            stack_dir.is_dir(),
+            f"Expected stack data directory to exist: {stack_dir}",
+        )
         expected_stacks = {
             stack_file.stem
-            for stack_file in (package_root / "data" / "stacks").glob("*.csv")
+            for stack_file in stack_dir.glob("*.csv")
         }
         core_module = load_core_module(core_path, module_name)
 
         self.assertGreater(len(expected_stacks), 1)
         self.assertEqual(expected_stacks, set(core_module.AVAILABLE_STACKS))
+
+    def test_core_fails_fast_when_stack_directory_is_missing(self) -> None:
+        """
+        Business Logic（为什么需要这个函数）:
+            发布包如果缺失 data/stacks，用户需要看到明确的打包错误，而不是得到空 stack 列表后再遇到难懂的 unknown stack。
+
+        Code Logic（这个函数做什么）:
+            将两套 core.py 分别复制到缺少 data/stacks 的临时目录中导入，断言导入阶段抛出包含 Stack data directory not found 的 RuntimeError。
+        """
+        core_paths = [
+            REPO_ROOT / "src" / "ui-ux-pro-max" / "scripts" / "core.py",
+            REPO_ROOT / "cli" / "assets" / "scripts" / "core.py",
+        ]
+
+        for index, core_path in enumerate(core_paths):
+            with self.subTest(core_path=core_path):
+                with tempfile.TemporaryDirectory() as temp_dir:
+                    temp_root = Path(temp_dir) / "package"
+                    temp_scripts = temp_root / "scripts"
+                    temp_scripts.mkdir(parents=True)
+                    temp_core = temp_scripts / "core.py"
+                    temp_core.write_text(core_path.read_text(encoding="utf-8"), encoding="utf-8")
+
+                    with self.assertRaisesRegex(RuntimeError, "Stack data directory not found"):
+                        load_core_module(temp_core, f"uipro_missing_stack_core_{index}")
 
     def test_cli_assets_register_all_packaged_stack_files(self) -> None:
         """
@@ -101,6 +134,49 @@ class StackDiscoveryTest(unittest.TestCase):
         self.assertNotIn("error", result)
         self.assertEqual("stacks/react.csv", result["file"])
         self.assertGreater(result["count"], 0)
+
+    def test_cli_assets_lists_stacks_without_query(self) -> None:
+        """
+        Business Logic（为什么需要这个函数）:
+            用户需要一种明确方式查看可用 stack，同时不应该为了查看列表而被迫提供无意义 query。
+
+        Code Logic（这个函数做什么）:
+            执行 CLI assets 的 search.py --list-stacks，断言命令成功且输出包含 react 与 threejs。
+        """
+        search_script = REPO_ROOT / "cli" / "assets" / "scripts" / "search.py"
+
+        result = subprocess.run(
+            [sys.executable, str(search_script), "--list-stacks"],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        self.assertIn("react", result.stdout.splitlines())
+        self.assertIn("threejs", result.stdout.splitlines())
+
+    def test_cli_assets_help_keeps_stack_option_concise(self) -> None:
+        """
+        Business Logic（为什么需要这个函数）:
+            stack 数量会随 CSV 增长，--help 不应把完整列表重复塞进 usage 与选项说明，避免 CLI 帮助持续膨胀。
+
+        Code Logic（这个函数做什么）:
+            执行 search.py --help，断言 stack 参数使用简短 metavar，并提供 --list-stacks 作为查看完整列表的入口。
+        """
+        search_script = REPO_ROOT / "cli" / "assets" / "scripts" / "search.py"
+
+        result = subprocess.run(
+            [sys.executable, str(search_script), "--help"],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        self.assertIn("--stack STACK", result.stdout)
+        self.assertIn("--list-stacks", result.stdout)
+        self.assertNotIn("--stack {angular,astro", result.stdout)
 
 
 if __name__ == "__main__":
