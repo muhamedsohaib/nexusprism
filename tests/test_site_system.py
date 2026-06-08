@@ -21,6 +21,16 @@ def run_search(*args: str) -> str:
     return result.stdout
 
 
+def run_search_result(*args: str) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [sys.executable, str(SEARCH), *args],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+
 class SiteSystemCliTests(unittest.TestCase):
     def test_site_system_json_contract(self):
         output = run_search(
@@ -82,6 +92,23 @@ class SiteSystemCliTests(unittest.TestCase):
             )
             self.assertIn("site-system/a-b-test/SITE_SYSTEM.md", output)
             self.assertTrue((Path(tmp) / "site-system" / "a-b-test" / "SITE_SYSTEM.md").exists(), output)
+
+    def test_site_system_json_persist_keeps_stdout_parseable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = run_search_result(
+                "B2B SaaS analytics platform website",
+                "--site-system",
+                "-f",
+                "json",
+                "--persist",
+                "-p",
+                "JSON Site",
+                "--output-dir",
+                tmp,
+            )
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["project_name"], "JSON Site")
+            self.assertIn("site-system/json-site/SITE_SYSTEM.md", result.stderr)
 
     def test_new_domains_search(self):
         output = run_search(

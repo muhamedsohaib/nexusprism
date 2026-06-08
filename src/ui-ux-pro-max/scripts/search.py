@@ -90,11 +90,12 @@ if __name__ == "__main__":
 
         if args.persist:
             project_slug = slugify(args.project_name) if args.project_name else slugify(args.query)
-            print("\n" + "=" * 60)
-            print(f"✅ Site system persisted to site-system/{project_slug}/")
-            print(f"   📄 site-system/{project_slug}/SITE_SYSTEM.md (Sitemap + Page Matrix + Prompt Pack)")
-            print(f"   📁 site-system/{project_slug}/pages/ (Page-specific Claude Design prompts)")
-            print("=" * 60)
+            confirmation_stream = sys.stderr if site_format == "json" else sys.stdout
+            print("\n" + "=" * 60, file=confirmation_stream)
+            print(f"✅ Site system persisted to site-system/{project_slug}/", file=confirmation_stream)
+            print(f"   📄 site-system/{project_slug}/SITE_SYSTEM.md (Sitemap + Page Matrix + Prompt Pack)", file=confirmation_stream)
+            print(f"   📁 site-system/{project_slug}/pages/ (Page-specific Claude Design prompts)", file=confirmation_stream)
+            print("=" * 60, file=confirmation_stream)
     # Design system takes priority over stack/domain search.
     elif args.design_system:
         if args.format == "json":
