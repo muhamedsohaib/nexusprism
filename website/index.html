@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumea Studio — Digitale Produkte, die Wirkung zeigen</title>
+  <meta name="description" content="Lumea Studio ist eine Design- und Entwicklungsagentur. Wir gestalten Marken, Websites und digitale Produkte, die messbar wirken." />
+  <meta name="theme-color" content="#F8FAFC" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Lumea Studio — Digitale Produkte, die Wirkung zeigen" />
+  <meta property="og:description" content="Design- und Entwicklungsagentur für Marken, Websites und digitale Produkte." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink:      '#0F172A',
+            slate2:   '#334155',
+            accent:   '#0369A1',
+            accentlt: '#0EA5E9',
+            bg:       '#F8FAFC',
+            surface:  '#FFFFFF',
+            muted:    '#E8ECF1',
+            mutedfg:  '#64748B',
+            line:     '#E2E8F0',
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+            sans:    ['Inter', 'system-ui', 'sans-serif'],
+          },
+          maxWidth: { content: '1200px' },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root { color-scheme: light; }
+    html { -webkit-font-smoothing: antialiased; }
+    body { font-feature-settings: "cv11", "ss01"; }
+
+    /* Accessible focus ring */
+    :focus-visible {
+      outline: 3px solid #0369A1;
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* Marquee */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-track { animation: marquee 28s linear infinite; }
+
+    .grid-lines {
+      background-image:
+        linear-gradient(to right, rgba(15,23,42,.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15,23,42,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    a, button { transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .marquee-track { animation: none; }
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-bg text-ink font-sans antialiased">
+
+  <!-- Skip link -->
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-ink focus:text-white focus:px-4 focus:py-2 focus:rounded-md">Zum Inhalt springen</a>
+
+  <!-- ============ NAV ============ -->
+  <header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <div class="mx-auto max-w-content px-5 sm:px-8">
+      <nav class="mt-4 flex items-center justify-between rounded-2xl border border-line bg-surface/80 backdrop-blur-md px-4 sm:px-5 py-3 shadow-sm" aria-label="Hauptnavigation">
+        <a href="#hero" class="flex items-center gap-2.5 font-display font-bold text-lg tracking-tight">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-ink text-white">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </span>
+          Lumea<span class="text-accent">.</span>
+        </a>
+
+        <ul class="hidden md:flex items-center gap-1 text-sm font-medium text-slate2">
+          <li><a class="px-3 py-2 rounded-lg hover:text-ink hover:bg-muted" href="#services">Leistungen</a></li>
+          <li><a class="px-3 py-2 rounded-lg hover:text-ink hover:bg-muted" href="#work">Arbeiten</a></li>
+          <li><a class="px-3 py-2 rounded-lg hover:text-ink hover:bg-muted" href="#process">Prozess</a></li>
+          <li><a class="px-3 py-2 rounded-lg hover:text-ink hover:bg-muted" href="#about">Über uns</a></li>
+        </ul>
+
+        <div class="flex items-center gap-2">
+          <a href="#contact" class="hidden sm:inline-flex items-center gap-1.5 rounded-lg bg-ink px-4 py-2.5 text-sm font-semibold text-white hover:bg-accent">
+            Projekt starten
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <button id="menuBtn" class="md:hidden grid h-10 w-10 place-items-center rounded-lg border border-line text-ink hover:bg-muted" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="md:hidden hidden mt-2 rounded-2xl border border-line bg-surface p-2 shadow-lg">
+        <a class="block px-4 py-3 rounded-lg font-medium hover:bg-muted" href="#services">Leistungen</a>
+        <a class="block px-4 py-3 rounded-lg font-medium hover:bg-muted" href="#work">Arbeiten</a>
+        <a class="block px-4 py-3 rounded-lg font-medium hover:bg-muted" href="#process">Prozess</a>
+        <a class="block px-4 py-3 rounded-lg font-medium hover:bg-muted" href="#about">Über uns</a>
+        <a class="mt-1 block px-4 py-3 rounded-lg bg-ink text-center font-semibold text-white hover:bg-accent" href="#contact">Projekt starten</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section id="hero" class="relative overflow-hidden pt-36 sm:pt-44 pb-20 sm:pb-28">
+      <div class="absolute inset-0 grid-lines [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" aria-hidden="true"></div>
+      <div class="absolute -top-24 right-0 h-[400px] w-[400px] rounded-full bg-accentlt/10 blur-3xl" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-content px-5 sm:px-8">
+        <div class="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5 text-sm font-medium text-slate2 shadow-sm">
+          <span class="h-2 w-2 rounded-full bg-green-500"></span>
+          Verfügbar für neue Projekte · Q3 2026
+        </div>
+
+        <h1 class="reveal mt-6 max-w-4xl font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.02] tracking-tight">
+          Digitale Produkte,<br class="hidden sm:block" />
+          die <span class="text-accent">Wirkung</span> zeigen.
+        </h1>
+
+        <p class="reveal mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-slate2">
+          Lumea Studio ist eine Design- und Entwicklungsagentur. Wir verbinden klare Strategie,
+          durchdachtes Design und sauberen Code zu Erlebnissen, die Menschen begeistern — und Zahlen bewegen.
+        </p>
+
+        <div class="reveal mt-9 flex flex-col sm:flex-row gap-3">
+          <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-xl bg-ink px-6 py-3.5 text-base font-semibold text-white hover:bg-accent hover:-translate-y-0.5 shadow-sm">
+            Projekt starten
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#work" class="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-6 py-3.5 text-base font-semibold text-ink hover:border-ink">
+            Arbeiten ansehen
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <dl class="reveal mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4">
+          <div class="bg-surface p-6">
+            <dt class="text-sm font-medium text-mutedfg">Projekte geliefert</dt>
+            <dd class="mt-1 font-display text-3xl font-bold">120+</dd>
+          </div>
+          <div class="bg-surface p-6">
+            <dt class="text-sm font-medium text-mutedfg">Ø Conversion-Plus</dt>
+            <dd class="mt-1 font-display text-3xl font-bold">+38%</dd>
+          </div>
+          <div class="bg-surface p-6">
+            <dt class="text-sm font-medium text-mutedfg">Jahre Erfahrung</dt>
+            <dd class="mt-1 font-display text-3xl font-bold">9</dd>
+          </div>
+          <div class="bg-surface p-6">
+            <dt class="text-sm font-medium text-mutedfg">Kundenzufriedenheit</dt>
+            <dd class="mt-1 font-display text-3xl font-bold">4.9/5</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ LOGO MARQUEE ============ -->
+    <section class="border-y border-line bg-surface py-8" aria-label="Kundenlogos">
+      <p class="mb-6 text-center text-sm font-medium uppercase tracking-wider text-mutedfg">Vertraut von wachsenden Teams</p>
+      <div class="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
+        <div class="marquee-track flex w-max items-center gap-14 px-7 text-xl font-display font-semibold text-slate2/70">
+          <span>Nordwind</span><span>Atlas&nbsp;Pay</span><span>Hertz&amp;Co</span><span>Vela</span><span>Quantum</span><span>Mira&nbsp;Health</span><span>Brightline</span>
+          <span aria-hidden="true">Nordwind</span><span aria-hidden="true">Atlas&nbsp;Pay</span><span aria-hidden="true">Hertz&amp;Co</span><span aria-hidden="true">Vela</span><span aria-hidden="true">Quantum</span><span aria-hidden="true">Mira&nbsp;Health</span><span aria-hidden="true">Brightline</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section id="services" class="py-20 sm:py-28">
+      <div class="mx-auto max-w-content px-5 sm:px-8">
+        <div class="reveal max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-wider text-accent">Leistungen</p>
+          <h2 class="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">Alles, was dein Produkt zum Wachsen braucht</h2>
+          <p class="mt-4 text-lg text-slate2">Von der ersten Idee bis zum Launch — vier Kernkompetenzen, ein eingespieltes Team.</p>
+        </div>
+
+        <div class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <!-- Card 1 -->
+          <article class="reveal group rounded-2xl border border-line bg-surface p-7 hover:border-ink hover:-translate-y-1 hover:shadow-xl">
+            <div class="grid h-12 w-12 place-items-center rounded-xl bg-muted text-accent group-hover:bg-ink group-hover:text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="mt-5 font-display text-xl font-semibold">Strategie &amp; Brand</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Positionierung, Markenidentität und ein klarer Kompass, der jede Designentscheidung trägt.</p>
+          </article>
+          <!-- Card 2 -->
+          <article class="reveal group rounded-2xl border border-line bg-surface p-7 hover:border-ink hover:-translate-y-1 hover:shadow-xl">
+            <div class="grid h-12 w-12 place-items-center rounded-xl bg-muted text-accent group-hover:bg-ink group-hover:text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="mt-5 font-display text-xl font-semibold">UX &amp; UI Design</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Intuitive Interfaces und Designsysteme, die schön aussehen und mühelos funktionieren.</p>
+          </article>
+          <!-- Card 3 -->
+          <article class="reveal group rounded-2xl border border-line bg-surface p-7 hover:border-ink hover:-translate-y-1 hover:shadow-xl">
+            <div class="grid h-12 w-12 place-items-center rounded-xl bg-muted text-accent group-hover:bg-ink group-hover:text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 5l-2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="mt-5 font-display text-xl font-semibold">Web &amp; App Development</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Performanter, barrierefreier Code mit modernen Stacks — von Landingpage bis Plattform.</p>
+          </article>
+          <!-- Card 4 -->
+          <article class="reveal group rounded-2xl border border-line bg-surface p-7 hover:border-ink hover:-translate-y-1 hover:shadow-xl">
+            <div class="grid h-12 w-12 place-items-center rounded-xl bg-muted text-accent group-hover:bg-ink group-hover:text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3v18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 14l4-4 3 3 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="mt-5 font-display text-xl font-semibold">Growth &amp; Optimierung</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Datengetriebene Tests, Analytics und Conversion-Optimierung für nachhaltiges Wachstum.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WORK ============ -->
+    <section id="work" class="py-20 sm:py-28 bg-surface border-y border-line">
+      <div class="mx-auto max-w-content px-5 sm:px-8">
+        <div class="reveal flex flex-wrap items-end justify-between gap-6">
+          <div class="max-w-2xl">
+            <p class="text-sm font-semibold uppercase tracking-wider text-accent">Ausgewählte Arbeiten</p>
+            <h2 class="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">Projekte, auf die wir stolz sind</h2>
+          </div>
+          <a href="#contact" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-ink hover:text-accent">
+            Vollständiges Portfolio
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="mt-14 grid gap-6 lg:grid-cols-2">
+          <!-- Project 1 (wide) -->
+          <article class="reveal group lg:col-span-2 grid md:grid-cols-2 overflow-hidden rounded-3xl border border-line">
+            <div class="relative aspect-[16/10] md:aspect-auto bg-gradient-to-br from-ink to-accent">
+              <div class="absolute inset-0 grid place-items-center">
+                <span class="font-display text-5xl font-bold text-white/90">Atlas Pay</span>
+              </div>
+            </div>
+            <div class="flex flex-col justify-center p-8 sm:p-10">
+              <div class="flex gap-2 text-xs font-medium text-mutedfg">
+                <span class="rounded-full bg-muted px-3 py-1">Fintech</span>
+                <span class="rounded-full bg-muted px-3 py-1">Web App</span>
+                <span class="rounded-full bg-muted px-3 py-1">Design System</span>
+              </div>
+              <h3 class="mt-4 font-display text-2xl font-bold">Bezahlplattform neu gedacht</h3>
+              <p class="mt-3 text-slate2 leading-relaxed">Ein komplettes Rebranding und Redesign der Onboarding-Strecke — mit dem Ergebnis von 38 % mehr abgeschlossenen Anmeldungen in 90 Tagen.</p>
+              <a href="#contact" class="mt-5 inline-flex items-center gap-1.5 font-semibold text-accent group-hover:gap-2.5">Fallstudie lesen
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="reveal group overflow-hidden rounded-3xl border border-line">
+            <div class="relative aspect-[16/10] bg-gradient-to-br from-emerald-600 to-teal-400">
+              <div class="absolute inset-0 grid place-items-center"><span class="font-display text-4xl font-bold text-white/90">Mira Health</span></div>
+            </div>
+            <div class="p-7">
+              <div class="flex gap-2 text-xs font-medium text-mutedfg">
+                <span class="rounded-full bg-muted px-3 py-1">Healthcare</span>
+                <span class="rounded-full bg-muted px-3 py-1">Mobile</span>
+              </div>
+              <h3 class="mt-4 font-display text-xl font-bold">Termin-App für Kliniken</h3>
+              <p class="mt-2 text-slate2 leading-relaxed">Eine barrierefreie App, die Wartezeiten halbiert und die Patientenzufriedenheit spürbar erhöht.</p>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="reveal group overflow-hidden rounded-3xl border border-line">
+            <div class="relative aspect-[16/10] bg-gradient-to-br from-orange-500 to-amber-400">
+              <div class="absolute inset-0 grid place-items-center"><span class="font-display text-4xl font-bold text-white/90">Nordwind</span></div>
+            </div>
+            <div class="p-7">
+              <div class="flex gap-2 text-xs font-medium text-mutedfg">
+                <span class="rounded-full bg-muted px-3 py-1">E-Commerce</span>
+                <span class="rounded-full bg-muted px-3 py-1">Shopify</span>
+              </div>
+              <h3 class="mt-4 font-display text-xl font-bold">Outdoor-Marke skaliert</h3>
+              <p class="mt-2 text-slate2 leading-relaxed">Storefront-Redesign mit +52 % Umsatz pro Besucher und einer Ladezeit unter einer Sekunde.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section id="process" class="py-20 sm:py-28">
+      <div class="mx-auto max-w-content px-5 sm:px-8">
+        <div class="reveal max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-wider text-accent">Unser Prozess</p>
+          <h2 class="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">Klar, transparent, gemeinsam</h2>
+          <p class="mt-4 text-lg text-slate2">Vier Phasen, kein Rätselraten. Du weißt jederzeit, woran wir arbeiten und warum.</p>
+        </div>
+
+        <ol class="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <li class="reveal relative">
+            <span class="font-display text-5xl font-bold text-muted">01</span>
+            <h3 class="mt-3 font-display text-xl font-semibold">Discovery</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Wir tauchen in dein Business, deine Nutzer und Ziele ein und definieren den Erfolg gemeinsam.</p>
+          </li>
+          <li class="reveal relative">
+            <span class="font-display text-5xl font-bold text-muted">02</span>
+            <h3 class="mt-3 font-display text-xl font-semibold">Design</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Von Wireframes zu interaktiven Prototypen — getestet mit echten Menschen, nicht mit Annahmen.</p>
+          </li>
+          <li class="reveal relative">
+            <span class="font-display text-5xl font-bold text-muted">03</span>
+            <h3 class="mt-3 font-display text-xl font-semibold">Build</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Sauberer, performanter Code in engen Iterationen — mit dir als Teil des Teams.</p>
+          </li>
+          <li class="reveal relative">
+            <span class="font-display text-5xl font-bold text-muted">04</span>
+            <h3 class="mt-3 font-display text-xl font-semibold">Launch &amp; Grow</h3>
+            <p class="mt-2 text-slate2 leading-relaxed">Wir liefern nicht nur ab, wir messen, lernen und optimieren weiter.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT / TESTIMONIAL ============ -->
+    <section id="about" class="py-20 sm:py-28 bg-ink text-white">
+      <div class="mx-auto max-w-content px-5 sm:px-8 grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div class="reveal">
+          <p class="text-sm font-semibold uppercase tracking-wider text-accentlt">Über uns</p>
+          <h2 class="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">Ein kleines Team mit großem Anspruch</h2>
+          <p class="mt-5 text-lg leading-relaxed text-slate-300">
+            Wir sind Lumea — eine Hand voll Designer:innen, Entwickler:innen und Strateg:innen, die glauben,
+            dass gutes Design unsichtbar ist und großartige Produkte aus Zusammenarbeit entstehen.
+            Keine Egos, keine Buzzwords. Nur ehrliche Arbeit, die wirkt.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+            <div><div class="font-display text-3xl font-bold">100%</div><div class="text-sm text-slate-400">In-house Team</div></div>
+            <div><div class="font-display text-3xl font-bold">14 Tage</div><div class="text-sm text-slate-400">Ø bis zum ersten Konzept</div></div>
+            <div><div class="font-display text-3xl font-bold">Remote</div><div class="text-sm text-slate-400">Weltweit für dich da</div></div>
+          </div>
+        </div>
+
+        <figure class="reveal rounded-3xl border border-white/10 bg-white/5 p-8 sm:p-10 backdrop-blur">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="text-accentlt" aria-hidden="true"><path d="M10 11H6a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2v8a4 4 0 01-4 4M21 11h-4a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2v8a4 4 0 01-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <blockquote class="mt-5 font-display text-xl sm:text-2xl font-medium leading-snug">
+            „Lumea hat nicht nur unser Produkt neu gestaltet, sondern unser ganzes Verständnis davon, was möglich ist. Das beste Agenturteam, mit dem wir je gearbeitet haben."
+          </blockquote>
+          <figcaption class="mt-6 flex items-center gap-4">
+            <span class="grid h-12 w-12 place-items-center rounded-full bg-accent font-display font-bold">SK</span>
+            <span>
+              <span class="block font-semibold">Sarah König</span>
+              <span class="block text-sm text-slate-400">CPO, Atlas Pay</span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ CTA / CONTACT ============ -->
+    <section id="contact" class="py-20 sm:py-28">
+      <div class="mx-auto max-w-content px-5 sm:px-8">
+        <div class="reveal relative overflow-hidden rounded-3xl border border-line bg-surface px-6 py-14 sm:px-16 sm:py-20 text-center shadow-sm">
+          <div class="absolute inset-0 grid-lines [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" aria-hidden="true"></div>
+          <div class="relative">
+            <h2 class="mx-auto max-w-2xl font-display text-4xl sm:text-5xl font-bold tracking-tight">Lass uns etwas bauen, das auffällt.</h2>
+            <p class="mx-auto mt-4 max-w-xl text-lg text-slate2">Erzähl uns von deinem Projekt. Wir melden uns innerhalb eines Werktags mit ersten Gedanken.</p>
+
+            <form class="mx-auto mt-9 flex max-w-md flex-col gap-3 sm:flex-row" onsubmit="return handleSubmit(event)">
+              <label for="email" class="sr-only">E-Mail-Adresse</label>
+              <input id="email" name="email" type="email" required autocomplete="email" placeholder="deine@email.de"
+                class="h-12 flex-1 rounded-xl border border-line bg-bg px-4 text-ink placeholder:text-mutedfg focus:border-accent" />
+              <button type="submit" class="h-12 inline-flex items-center justify-center gap-2 rounded-xl bg-ink px-6 font-semibold text-white hover:bg-accent hover:-translate-y-0.5">
+                Gespräch anfragen
+              </button>
+            </form>
+            <p id="formNote" class="mt-3 text-sm text-mutedfg" role="status" aria-live="polite">Kostenlos &amp; unverbindlich · Keine Spam-Mails.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-line bg-surface">
+    <div class="mx-auto max-w-content px-5 sm:px-8 py-14">
+      <div class="grid gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
+        <div>
+          <a href="#hero" class="flex items-center gap-2.5 font-display font-bold text-lg">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-ink text-white">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            </span>
+            Lumea<span class="text-accent">.</span>
+          </a>
+          <p class="mt-4 max-w-xs text-slate2">Design- und Entwicklungsagentur für Marken, die mehr wollen.</p>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-mutedfg">Leistungen</h3>
+          <ul class="mt-4 space-y-2 text-slate2">
+            <li><a class="hover:text-ink" href="#services">Strategie &amp; Brand</a></li>
+            <li><a class="hover:text-ink" href="#services">UX &amp; UI Design</a></li>
+            <li><a class="hover:text-ink" href="#services">Development</a></li>
+            <li><a class="hover:text-ink" href="#services">Growth</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-mutedfg">Studio</h3>
+          <ul class="mt-4 space-y-2 text-slate2">
+            <li><a class="hover:text-ink" href="#work">Arbeiten</a></li>
+            <li><a class="hover:text-ink" href="#process">Prozess</a></li>
+            <li><a class="hover:text-ink" href="#about">Über uns</a></li>
+            <li><a class="hover:text-ink" href="#contact">Kontakt</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-mutedfg">Kontakt</h3>
+          <ul class="mt-4 space-y-2 text-slate2">
+            <li><a class="hover:text-ink" href="mailto:hallo@lumea.studio">hallo@lumea.studio</a></li>
+            <li><a class="hover:text-ink" href="tel:+4930123456">+49 30 123 456</a></li>
+            <li class="text-mutedfg">Berlin · Remote</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-6 text-sm text-mutedfg sm:flex-row">
+        <p>© 2026 Lumea Studio. Alle Rechte vorbehalten.</p>
+        <div class="flex gap-6">
+          <a class="hover:text-ink" href="#">Impressum</a>
+          <a class="hover:text-ink" href="#">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    (function () {
+      var btn = document.getElementById('menuBtn');
+      var menu = document.getElementById('mobileMenu');
+      if (btn && menu) {
+        btn.addEventListener('click', function () {
+          var open = menu.classList.toggle('hidden') === false;
+          btn.setAttribute('aria-expanded', String(open));
+          btn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+        });
+        menu.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    })();
+
+    // Nav shadow on scroll
+    (function () {
+      var nav = document.getElementById('nav');
+      var onScroll = function () {
+        if (window.scrollY > 8) nav.classList.add('drop-shadow-sm');
+        else nav.classList.remove('drop-shadow-sm');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // Scroll reveal
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var els = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+
+    // Demo form
+    function handleSubmit(e) {
+      e.preventDefault();
+      var note = document.getElementById('formNote');
+      var input = document.getElementById('email');
+      note.textContent = 'Danke! Wir melden uns bei ' + input.value + ' innerhalb eines Werktags.';
+      note.classList.remove('text-mutedfg');
+      note.classList.add('text-accent', 'font-medium');
+      input.value = '';
+      return false;
+    }
+  </script>
+</body>
+</html>
