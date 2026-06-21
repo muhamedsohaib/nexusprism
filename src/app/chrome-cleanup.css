@@ -31,56 +31,33 @@ body:has(.chrome-hero) main,
 }
 
 .chrome-hero {
+  position: relative;
+  width: 100%;
   background: #000 !important;
+  isolation: isolate;
 }
 
 .chrome-hero-canvas {
+  position: absolute;
+  inset: 0;
   display: block !important;
+  width: 100%;
+  height: 100%;
   z-index: 1 !important;
   opacity: .92 !important;
   mix-blend-mode: screen !important;
   filter: saturate(1.12) contrast(1.08) brightness(.92) !important;
 }
 
-.chrome-hero-content {
-  padding-top: clamp(18px, 4vh, 44px) !important;
-  padding-bottom: clamp(82px, 12vh, 112px) !important;
-}
-
-.chrome-copy-panel {
-  width: min(460px, 100%) !important;
-  transform: none !important;
-}
-
-.chrome-headline {
-  font-size: clamp(1.35rem, 2.55vw, 2.58rem) !important;
-  line-height: .92 !important;
-}
-
-.chrome-headline-wrap {
-  gap: 4px !important;
-}
-
-.chrome-subtitle {
-  margin-top: 10px !important;
-  max-width: 330px !important;
-  font-size: clamp(.48rem, .58vw, .58rem) !important;
-  line-height: 1.62 !important;
-}
-
-.chrome-actions {
-  gap: 8px !important;
-  margin-top: 16px !important;
-}
-
-.chrome-button {
-  min-height: 30px !important;
-  padding: 0 13px !important;
-  font-size: .48rem !important;
-}
-
 .chrome-prism-core {
+  position: absolute;
   z-index: 2 !important;
+  width: min(46vw, 520px);
+  height: min(46vw, 520px);
+  left: 66%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .chrome-prism-core img {
@@ -89,6 +66,94 @@ body:has(.chrome-hero) main,
   object-fit: contain;
   opacity: .42;
   filter: saturate(1.08) contrast(1.08) drop-shadow(0 0 28px rgba(226,34,48,.22));
+}
+
+.chrome-hero-content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: #f4efe7;
+  padding: clamp(18px, 4vh, 44px) clamp(22px, 9vw, 142px) clamp(82px, 12vh, 112px) !important;
+}
+
+.chrome-copy-panel {
+  width: min(460px, 100%) !important;
+  text-align: left;
+  transform: none !important;
+}
+
+.chrome-headline-wrap {
+  display: grid;
+  gap: 4px !important;
+}
+
+.chrome-headline {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.35rem, 2.55vw, 2.58rem) !important;
+  font-weight: 700;
+  line-height: .92 !important;
+  letter-spacing: -.055em;
+}
+
+.chrome-headline-primary {
+  background: linear-gradient(90deg, #ffffff, #d7dde3 20%, #ff3342 58%, #eef1f4 82%);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.chrome-headline-secondary {
+  background: linear-gradient(90deg, #ff3342, #f4efe7 42%, #b8c0c8 72%, #7a0912);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.chrome-subtitle {
+  margin: 10px 0 0 !important;
+  max-width: 330px !important;
+  color: rgba(244, 239, 231, .74);
+  font-size: clamp(.48rem, .58vw, .58rem) !important;
+  line-height: 1.62 !important;
+  font-weight: 400;
+}
+
+.chrome-actions {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px !important;
+  margin-top: 16px !important;
+}
+
+.chrome-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px !important;
+  padding: 0 13px !important;
+  border-radius: 999px;
+  font-size: .48rem !important;
+  font-weight: 900;
+  transition: transform .32s ease, border-color .32s ease, box-shadow .32s ease;
+}
+
+.chrome-button-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #ff3342, #a10d18 56%, #3a0307);
+  box-shadow: 0 18px 68px rgba(226, 34, 48, .34), inset 0 1px 0 rgba(255,255,255,.24);
+}
+
+.chrome-button-secondary {
+  color: rgba(244, 239, 231, .9);
+  border: 1px solid rgba(244, 239, 231, .20);
+  background: rgba(244, 239, 231, .055);
+  backdrop-filter: blur(14px);
 }
 
 .chrome-hero::before {
@@ -174,6 +239,26 @@ body:has(.chrome-hero) main,
   100% { transform: translateX(68vw); opacity: .08; }
 }
 
+@media (max-width: 980px) {
+  .chrome-hero-content {
+    justify-content: center;
+    padding-inline: 24px !important;
+  }
+
+  .chrome-copy-panel {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .chrome-actions {
+    justify-content: center;
+  }
+
+  .chrome-prism-core {
+    left: 50%;
+  }
+}
+
 @media (max-width: 760px) {
   body:has(.chrome-hero) main,
   .chrome-hero,
@@ -206,6 +291,12 @@ body:has(.chrome-hero) main,
   .chrome-button {
     min-height: 32px !important;
     font-size: .5rem !important;
+  }
+
+  .chrome-prism-core {
+    width: 92vw;
+    height: 92vw;
+    opacity: .48;
   }
 
   .bottom-score-cta {
