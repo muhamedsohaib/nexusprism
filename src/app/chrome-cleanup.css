@@ -7,3 +7,42 @@
   opacity: 0 !important;
   visibility: hidden !important;
 }
+
+/* Increase the light intensity of the horizontal fireball streaks without restoring the removed shapes. */
+.chrome-hero-canvas {
+  opacity: 1 !important;
+  filter: brightness(1.38) saturate(1.28) contrast(1.08) !important;
+}
+
+.chrome-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: .92;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse at 0% 22%, rgba(255, 244, 238, .95) 0 1px, rgba(255, 64, 75, .76) 3px, transparent 19px),
+    linear-gradient(90deg, rgba(255, 244, 238, .88), rgba(255, 74, 85, .62) 16%, rgba(255, 74, 85, .22) 43%, transparent 68%) 0 22% / 365px 3px no-repeat,
+    radial-gradient(ellipse at 0% 37%, rgba(255, 244, 238, .9) 0 1px, rgba(255, 64, 75, .7) 3px, transparent 17px),
+    linear-gradient(90deg, rgba(255, 244, 238, .82), rgba(255, 74, 85, .58) 18%, rgba(255, 74, 85, .22) 48%, transparent 70%) 0 37% / 395px 3px no-repeat,
+    radial-gradient(ellipse at 0% 48%, rgba(255, 244, 238, .84) 0 1px, rgba(255, 64, 75, .64) 3px, transparent 16px),
+    linear-gradient(90deg, rgba(255, 244, 238, .76), rgba(255, 74, 85, .54) 18%, rgba(255, 74, 85, .18) 48%, transparent 74%) 0 48% / 345px 3px no-repeat,
+    linear-gradient(90deg, rgba(255, 44, 58, .64), rgba(255, 44, 58, .30) 34%, transparent 76%) 0 61% / 510px 2px no-repeat;
+  filter: blur(.2px) drop-shadow(0 0 10px rgba(255, 45, 60, .92)) drop-shadow(0 0 26px rgba(255, 45, 60, .48));
+}
+
+@media (max-width: 760px) {
+  .chrome-hero::before {
+    opacity: .78;
+    background-size:
+      auto,
+      250px 3px,
+      auto,
+      285px 3px,
+      auto,
+      250px 3px,
+      330px 2px;
+  }
+}
