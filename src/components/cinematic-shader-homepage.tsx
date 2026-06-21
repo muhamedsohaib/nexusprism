@@ -132,11 +132,7 @@ function Hero({ trustBadge, headline, subtitle, buttons, className = '' }: HeroP
       </div>
       <div className="chrome-grid" aria-hidden="true" />
       <div className="chrome-prism-core" aria-hidden="true">
-        <i className="prism-triangle prism-one" />
-        <i className="prism-triangle prism-two" />
-        <i className="prism-triangle prism-three" />
-        <i className="prism-ring ring-a" />
-        <i className="prism-ring ring-b" />
+        <img src="/nexus-prism-logo.png" alt="" />
       </div>
       <div className="chrome-red-beam" aria-hidden="true" />
       <div className="chrome-hero-vignette" aria-hidden="true" />
