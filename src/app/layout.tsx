@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { site } from '@/lib/constants'
 import './globals.css'
 import './dotted-surface.css'
+import './entry.css'
 
 const display = Cormorant_Garamond({
   subsets: ['latin'],
