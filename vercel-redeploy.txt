@@ -1,0 +1,1 @@
+Force Vercel to deploy from the latest main commit after build configuration fixes.
