@@ -1,25 +1,13 @@
-import {
-  BeforeAfterLab,
-  CapabilityConstellation,
-  DashboardPreview,
-  HeroCommandCenter,
-  LaunchPlan,
-  ScoreSection,
-  ServiceCards,
-  WhatsAppCTA
-} from '@/components/commerce-command-center'
+import Link from 'next/link'
+import { DottedSurface } from '@/components/dotted-surface'
 
-export default function HomePage() {
+export default function EntryPage() {
   return (
-    <>
-      <HeroCommandCenter />
-      <ScoreSection />
-      <BeforeAfterLab />
-      <CapabilityConstellation />
-      <DashboardPreview />
-      <ServiceCards />
-      <LaunchPlan />
-      <WhatsAppCTA />
-    </>
+    <section className="entry-page" aria-label="Nexus Prism entry screen">
+      <DottedSurface className="entry-dotted-surface" />
+      <Link className="proceed-button" href="/home" aria-label="Proceed to Nexus Prism website">
+        Proceed
+      </Link>
+    </section>
   )
 }
