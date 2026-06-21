@@ -11,3 +11,7 @@
   min-height: 0 !important;
   overflow: hidden !important;
 }
+
+.chrome-hero::after {
+  content: "";
+}
