@@ -15,6 +15,17 @@ type HeroProps = {
   className?: string
 }
 
+const shaderParts = {
+  clouds: 1,
+  cloudSpeed: 0.5,
+  particles: 1,
+  particleSpeed: 0.5,
+  red: 1,
+  green: 1,
+  blue: 1,
+  brightness: 1
+}
+
 function useUploadedShader() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const frameRef = useRef<number | null>(null)
@@ -68,6 +79,12 @@ void main(){gl_Position=position;}`
 
     const resolution = gl.getUniformLocation(program, 'resolution')
     const time = gl.getUniformLocation(program, 'time')
+    const clouds = gl.getUniformLocation(program, 'cloudsAmount')
+    const cloudSpeed = gl.getUniformLocation(program, 'cloudSpeed')
+    const particles = gl.getUniformLocation(program, 'particlesAmount')
+    const particleSpeed = gl.getUniformLocation(program, 'particleSpeed')
+    const tint = gl.getUniformLocation(program, 'componentTint')
+    const brightness = gl.getUniformLocation(program, 'brightness')
 
     const resize = () => {
       const dpr = Math.max(1, 0.5 * window.devicePixelRatio)
@@ -85,6 +102,12 @@ void main(){gl_Position=position;}`
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
       gl.uniform2f(resolution, canvas.width, canvas.height)
       gl.uniform1f(time, now * 1e-3)
+      gl.uniform1f(clouds, shaderParts.clouds)
+      gl.uniform1f(cloudSpeed, shaderParts.cloudSpeed)
+      gl.uniform1f(particles, shaderParts.particles)
+      gl.uniform1f(particleSpeed, shaderParts.particleSpeed)
+      gl.uniform3f(tint, shaderParts.red, shaderParts.green, shaderParts.blue)
+      gl.uniform1f(brightness, shaderParts.brightness)
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
       frameRef.current = requestAnimationFrame(render)
     }
@@ -150,38 +173,30 @@ export function CinematicShaderHomepage() {
 }
 
 const uploadedShaderSource = `#version 300 es
-/*********
-* made by Matthias Hurrle (@atzedent)
-*
-* To explore strange new worlds, to seek out new life
-* and new civilizations, to boldly go where no man has
-* gone before.
-*/
 precision highp float;
 out vec4 O;
 uniform vec2 resolution;
 uniform float time;
+uniform float cloudsAmount;
+uniform float cloudSpeed;
+uniform float particlesAmount;
+uniform float particleSpeed;
+uniform vec3 componentTint;
+uniform float brightness;
 #define FC gl_FragCoord.xy
 #define T time
 #define R resolution
 #define MN min(R.x,R.y)
-// Returns a pseudo random number for a given point (white noise)
 float rnd(vec2 p) {
   p=fract(p*vec2(12.9898,78.233));
   p+=dot(p,p+34.56);
   return fract(p.x*p.y);
 }
-// Returns a pseudo random number for a given point (value noise)
 float noise(in vec2 p) {
   vec2 i=floor(p), f=fract(p), u=f*f*(3.-2.*f);
-  float
-  a=rnd(i),
-  b=rnd(i+vec2(1,0)),
-  c=rnd(i+vec2(0,1)),
-  d=rnd(i+1.);
+  float a=rnd(i), b=rnd(i+vec2(1,0)), c=rnd(i+vec2(0,1)), d=rnd(i+1.);
   return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);
 }
-// Returns a pseudo random number for a given point (fractal noise)
 float fbm(vec2 p) {
   float t=.0, a=1.; mat2 m=mat2(1.,-.5,.2,1.2);
   for (int i=0; i<5; i++) {
@@ -204,16 +219,16 @@ float clouds(vec2 p) {
 void main(void) {
   vec2 uv=(FC-.5*R)/MN,st=uv*vec2(2,1);
   vec3 col=vec3(0);
-  float bg=clouds(vec2(st.x+T*.5,-st.y));
+  float bg=clouds(vec2(st.x+T*cloudSpeed,-st.y))*cloudsAmount;
   uv*=1.-.3*(sin(T*.2)*.5+.5);
   for (float i=1.; i<12.; i++) {
-    uv+=.1*cos(i*vec2(.1+.01*i, .8)+i*i+T*.5+.1*uv.x);
+    uv+=.1*cos(i*vec2(.1+.01*i, .8)+i*i+T*particleSpeed+.1*uv.x);
     vec2 p=uv;
     float d=length(p);
-    col+=.00125/d*(cos(sin(i)*vec3(1,2,3))+1.);
+    col+=.00125*particlesAmount/d*(cos(sin(i)*vec3(1,2,3))+1.)*componentTint;
     float b=noise(i+p+bg*1.731);
-    col+=.002*b/length(max(p,vec2(b*p.x*.02,p.y)));
+    col+=.002*particlesAmount*b/length(max(p,vec2(b*p.x*.02,p.y)))*componentTint;
     col=mix(col,vec3(bg*.25,bg*.137,bg*.05),d);
   }
-  O=vec4(col,1);
+  O=vec4(col*brightness,1);
 }`
