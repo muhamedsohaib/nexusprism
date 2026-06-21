@@ -27,12 +27,12 @@ const arabic = Noto_Sans_Arabic({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: 'Nexus Prism | AI Commerce Operations for UAE Sellers',
+    default: 'Nexus Prism | The AI Operating Layer for UAE Sellers',
     template: '%s | Nexus Prism'
   },
   description: site.description,
   openGraph: {
-    title: 'Nexus Prism | AI Commerce Operations for UAE Sellers',
+    title: 'Nexus Prism | The AI Operating Layer for UAE Sellers',
     description: site.description,
     url: site.url,
     siteName: site.name,

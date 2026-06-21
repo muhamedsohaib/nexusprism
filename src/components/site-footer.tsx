@@ -12,12 +12,13 @@ export function SiteFooter() {
         <div>
           <h3>Website</h3>
           <Link href="/score">AI Commerce Score</Link>
-          <Link href="/proof">Proof lab</Link>
-          <Link href="/services">Fix sprints</Link>
+          <Link href="/proof">Before/After Lab</Link>
+          <Link href="/services">Fix Sprints</Link>
+          <Link href="/pricing">Pricing</Link>
         </div>
         <div>
-          <h3>Launch model</h3>
-          <p>Service-led first. Software later. Build the app only after real score submissions and paid sprints validate the workflow.</p>
+          <h3>Operating model</h3>
+          <p>Premium consulting first. Human-reviewed AI scoring. Paid sprints only when the first diagnosis reveals something worth fixing.</p>
         </div>
       </div>
     </footer>
