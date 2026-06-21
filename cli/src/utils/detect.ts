@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { homedir } from 'node:os';
 import type { AIType } from '../types/index.js';
 
 interface DetectionResult {
@@ -64,6 +65,9 @@ export function detectAIType(cwd: string = process.cwd()): DetectionResult {
   if (existsSync(join(cwd, '.augment'))) {
     detected.push('augment');
   }
+  if (existsSync(join(cwd, '.pi')) || existsSync(join(homedir(), '.pi'))) {
+    detected.push('pi');
+  }
 
   // Suggest based on what's detected
   let suggested: AIType | null = null;
@@ -114,6 +118,8 @@ export function getAITypeDescription(aiType: AIType): string {
       return 'Warp (.warp/skills/)';
     case 'augment':
       return 'Augment (.augment/skills/)';
+    case 'pi':
+      return 'Pi Coding Agent (.pi/agent/skills/)';
     case 'all':
       return 'All AI assistants';
   }
