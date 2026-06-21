@@ -1,5 +1,6 @@
 'use client'
 
+import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { whatsappLink } from '@/lib/constants'
 
@@ -22,7 +23,7 @@ export function ScoreForm({ compact = false }: { compact?: boolean }) {
     setForm((current) => ({ ...current, [field]: value }))
   }
 
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const message = [
       'Hi Nexus Prism, I want my AI Commerce Score.',
