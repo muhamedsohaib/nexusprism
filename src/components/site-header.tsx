@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { navItems, site, whatsappLink } from '@/lib/constants'
 
-const markSrc = '/' + 'nexus-prism-logo-actual.svg'
+const markSrc = '/nexus-prism-logo.png'
 
 export function SiteHeader() {
   return (
