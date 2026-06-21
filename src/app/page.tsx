@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CinematicShaderHomepage } from '@/components/cinematic-shader-homepage'
+import { CinematicShaderHomepage } from '@/components/ui/animated-shader-hero'
 
 export default function HomePage() {
   return (
