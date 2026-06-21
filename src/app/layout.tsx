@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Cormorant_Garamond, Manrope, Noto_Sans_Arabic } from 'next/font/google'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
+import { ThemeProvider } from '@/components/theme-provider'
 import { site } from '@/lib/constants'
 import './globals.css'
 
@@ -47,12 +48,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en-AE" className={`${display.variable} ${sans.variable} ${arabic.variable}`}>
+    <html lang="en-AE" className={`${display.variable} ${sans.variable} ${arabic.variable}`} suppressHydrationWarning>
       <body>
-        <div className="page-noise" aria-hidden="true" />
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <ThemeProvider>
+          <div className="page-noise" aria-hidden="true" />
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+        </ThemeProvider>
       </body>
     </html>
   )
