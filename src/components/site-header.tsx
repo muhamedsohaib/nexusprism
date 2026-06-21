@@ -5,7 +5,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container nav-shell">
-        <Link className="brand" href="/" aria-label="Nexus Prism home">
+        <Link className="brand" href="/home" aria-label="Nexus Prism home">
           <span className="brand-mark" aria-hidden="true"><span /></span>
           <span className="brand-copy">
             <strong>{site.name}</strong>
@@ -19,12 +19,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <a
-          className="nav-cta"
-          href={whatsappLink('Hi Nexus Prism, I want my AI Commerce Score.')}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a className="nav-cta" href={whatsappLink('Hi Nexus Prism, I want my AI Commerce Score.')} target="_blank" rel="noreferrer">
           WhatsApp
         </a>
       </div>
