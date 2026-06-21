@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { navItems, site, whatsappLink } from '@/lib/constants'
-import { nexusPrismLogoSrc as markSrc } from '@/lib/logo-data'
+
+const markSrc = '/' + 'nexus-prism-logo-actual.svg'
 
 export function SiteHeader() {
   return (
@@ -15,23 +16,12 @@ export function SiteHeader() {
             <small>{site.tagline}</small>
           </span>
         </Link>
-
         <nav className="nav-links" aria-label="Primary navigation">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href}>{item.label}</Link>
-          ))}
+          {navItems.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
         </nav>
-
         <div className="nav-actions">
-          <Link className="language-pill" href="/?lang=ar">العربية</Link>
-          <a
-            className="nav-cta"
-            href={whatsappLink('Hi Nexus Prism, I want my free AI Commerce Score.')}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Free Score
-          </a>
+          <Link className="language-pill" href="/">العربية</Link>
+          <a className="nav-cta" href={whatsappLink('Hi Nexus Prism, I want my free AI Commerce Score.')} target="_blank" rel="noreferrer">Free Score</a>
         </div>
       </div>
     </header>
