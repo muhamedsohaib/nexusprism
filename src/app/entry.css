@@ -1,0 +1,66 @@
+.entry-page {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  min-height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(243, 221, 169, 0.12), transparent 26rem),
+    radial-gradient(circle at 50% 58%, rgba(142, 216, 255, 0.1), transparent 32rem),
+    linear-gradient(135deg, #020305, #071018 52%, #0d0b06);
+}
+
+.entry-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 0 34%, rgba(0, 0, 0, 0.46) 78%);
+}
+
+.entry-dotted-surface {
+  position: absolute !important;
+  inset: -12% !important;
+  z-index: 1 !important;
+  width: 124%;
+  height: 124%;
+  opacity: 0.82;
+  transform: translateY(8%) rotateX(10deg);
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(circle at 50% 50%, #000 0 62%, transparent 86%);
+}
+
+.proceed-button {
+  position: relative;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  min-height: 64px;
+  padding: 0 34px;
+  border-radius: 999px;
+  color: #070807;
+  background: linear-gradient(135deg, var(--gold-2), var(--gold));
+  box-shadow: 0 26px 70px rgba(214, 183, 119, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.24) inset;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.proceed-button:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 36px 90px rgba(214, 183, 119, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.34) inset;
+}
+
+@media (max-width: 620px) {
+  .proceed-button {
+    min-width: 190px;
+    min-height: 58px;
+  }
+}
