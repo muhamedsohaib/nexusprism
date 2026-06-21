@@ -32,7 +32,7 @@ body:has(.chrome-hero) main,
 }
 
 .chrome-hero {
-  background: radial-gradient(circle at 69% 51%, rgba(110, 5, 14, .24), transparent 20rem), linear-gradient(135deg, #020000 0%, #080102 48%, #000 100%) !important;
+  background: linear-gradient(135deg, #020000 0%, #050001 48%, #000 100%) !important;
 }
 
 .chrome-hero-content {
@@ -72,19 +72,23 @@ body:has(.chrome-hero) main,
   font-size: .48rem !important;
 }
 
+.chrome-prism-core {
+  z-index: 2 !important;
+}
+
 .chrome-prism-core img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   opacity: .42;
-  filter: saturate(1.08) contrast(1.08) drop-shadow(0 0 36px rgba(226,34,48,.28));
+  filter: saturate(1.08) contrast(1.08) drop-shadow(0 0 28px rgba(226,34,48,.22));
 }
 
 .chrome-hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   pointer-events: none;
   opacity: .86;
   mix-blend-mode: screen;
@@ -104,7 +108,7 @@ body:has(.chrome-hero) main,
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   pointer-events: none;
   opacity: .58;
   mix-blend-mode: screen;
