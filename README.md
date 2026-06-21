@@ -290,6 +290,7 @@ uipro init --ai droid       # Droid (Factory)
 uipro init --ai kilocode    # KiloCode
 uipro init --ai warp        # Warp
 uipro init --ai augment     # Augment
+uipro init --ai pi          # Pi Coding Agent (https://pi.dev)
 uipro init --ai all         # All assistants
 ```
 
