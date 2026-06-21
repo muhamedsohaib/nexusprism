@@ -176,7 +176,7 @@ function Hero({ trustBadge, headline, subtitle, buttons, className = '' }: HeroP
 export function CinematicShaderHomepage() {
   return (
     <Hero
-      trustBadge={{ text: 'Amazon.ae first · UAE-first · Human-reviewed AI commerce score', icons: ['◆', '◇', '◆'] }}
+      trustBadge={{ text: 'Get your score', icons: ['◆', '◇', '◆'] }}
       headline={{ line1: 'The AI operating layer', line2: 'for UAE sellers.' }}
       subtitle="Nexus Prism reviews your Amazon.ae presence, identifies operational gaps, and turns the highest-impact fixes into focused execution sprints."
       buttons={{
