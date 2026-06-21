@@ -5,250 +5,113 @@ import { useEffect, useRef } from 'react'
 import { whatsappLink } from '@/lib/constants'
 
 type HeroProps = {
-  trustBadge?: {
-    text: string
-    icons?: string[]
-  }
-  headline: {
-    line1: string
-    line2: string
-  }
+  trustBadge?: { text: string; icons?: string[] }
+  headline: { line1: string; line2: string }
   subtitle: string
   buttons?: {
-    primary?: {
-      text: string
-      href: string
-    }
-    secondary?: {
-      text: string
-      href: string
-    }
+    primary?: { text: string; href: string }
+    secondary?: { text: string; href: string }
   }
   className?: string
 }
 
-class WebGLRenderer {
-  private canvas: HTMLCanvasElement
-  private gl: WebGL2RenderingContext
-  private program: WebGLProgram | null = null
-  private vs: WebGLShader | null = null
-  private fs: WebGLShader | null = null
-  private buffer: WebGLBuffer | null = null
-  private scale: number
-  private shaderSource: string
-  private mouseMove = [0, 0]
-  private mouseCoords = [0, 0]
-  private pointerCoords = [0, 0]
-  private nbrOfPointers = 0
-
-  private vertexSrc = `#version 300 es
-precision highp float;
-in vec4 position;
-void main(){gl_Position=position;}`
-
-  private vertices = [-1, 1, -1, -1, 1, 1, 1, -1]
-
-  constructor(canvas: HTMLCanvasElement, scale: number) {
-    this.canvas = canvas
-    this.scale = scale
-    const context = canvas.getContext('webgl2')
-    if (!context) {
-      throw new Error('WebGL2 is not supported')
-    }
-    this.gl = context
-    this.gl.viewport(0, 0, canvas.width * scale, canvas.height * scale)
-    this.shaderSource = chromeRedShaderSource
-  }
-
-  updateMove(deltas: number[]) { this.mouseMove = deltas }
-  updateMouse(coords: number[]) { this.mouseCoords = coords }
-  updatePointerCoords(coords: number[]) { this.pointerCoords = coords }
-  updatePointerCount(nbr: number) { this.nbrOfPointers = nbr }
-
-  updateScale(scale: number) {
-    this.scale = scale
-    this.gl.viewport(0, 0, this.canvas.width * scale, this.canvas.height * scale)
-  }
-
-  private compile(shader: WebGLShader, source: string) {
-    const gl = this.gl
-    gl.shaderSource(shader, source)
-    gl.compileShader(shader)
-
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      console.error('Shader compilation error:', gl.getShaderInfoLog(shader))
-    }
-  }
-
-  reset() {
-    const gl = this.gl
-    if (this.program && !gl.getProgramParameter(this.program, gl.DELETE_STATUS)) {
-      if (this.vs) {
-        gl.detachShader(this.program, this.vs)
-        gl.deleteShader(this.vs)
-      }
-      if (this.fs) {
-        gl.detachShader(this.program, this.fs)
-        gl.deleteShader(this.fs)
-      }
-      gl.deleteProgram(this.program)
-    }
-  }
-
-  setup() {
-    const gl = this.gl
-    this.vs = gl.createShader(gl.VERTEX_SHADER)
-    this.fs = gl.createShader(gl.FRAGMENT_SHADER)
-    if (!this.vs || !this.fs) return
-
-    this.compile(this.vs, this.vertexSrc)
-    this.compile(this.fs, this.shaderSource)
-    this.program = gl.createProgram()
-    if (!this.program) return
-
-    gl.attachShader(this.program, this.vs)
-    gl.attachShader(this.program, this.fs)
-    gl.linkProgram(this.program)
-
-    if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
-      console.error(gl.getProgramInfoLog(this.program))
-    }
-  }
-
-  init() {
-    const gl = this.gl
-    const program = this.program
-    if (!program) return
-
-    this.buffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW)
-
-    const position = gl.getAttribLocation(program, 'position')
-    gl.enableVertexAttribArray(position)
-    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
-
-    ;(program as WebGLProgram & Record<string, WebGLUniformLocation | null>).resolution = gl.getUniformLocation(program, 'resolution')
-    ;(program as WebGLProgram & Record<string, WebGLUniformLocation | null>).time = gl.getUniformLocation(program, 'time')
-    ;(program as WebGLProgram & Record<string, WebGLUniformLocation | null>).move = gl.getUniformLocation(program, 'move')
-    ;(program as WebGLProgram & Record<string, WebGLUniformLocation | null>).touch = gl.getUniformLocation(program, 'touch')
-    ;(program as WebGLProgram & Record<string, WebGLUniformLocation | null>).pointerCount = gl.getUniformLocation(program, 'pointerCount')
-    ;(program as WebGLProgram & Record<string, WebGLUniformLocation | null>).pointers = gl.getUniformLocation(program, 'pointers')
-  }
-
-  render(now = 0) {
-    const gl = this.gl
-    const program = this.program as (WebGLProgram & Record<string, WebGLUniformLocation | null>) | null
-    if (!program || gl.getProgramParameter(program, gl.DELETE_STATUS)) return
-
-    gl.clearColor(0, 0, 0, 1)
-    gl.clear(gl.COLOR_BUFFER_BIT)
-    gl.useProgram(program)
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer)
-
-    gl.uniform2f(program.resolution, this.canvas.width, this.canvas.height)
-    gl.uniform1f(program.time, now * 1e-3)
-    gl.uniform2f(program.move, this.mouseMove[0], this.mouseMove[1])
-    gl.uniform2f(program.touch, this.mouseCoords[0], this.mouseCoords[1])
-    gl.uniform1i(program.pointerCount, this.nbrOfPointers)
-    gl.uniform2fv(program.pointers, this.pointerCoords)
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
-  }
-}
-
-class PointerHandler {
-  private scale: number
-  private active = false
-  private pointers = new Map<number, number[]>()
-  private lastCoords = [0, 0]
-  private moves = [0, 0]
-
-  constructor(element: HTMLCanvasElement, scale: number) {
-    this.scale = scale
-
-    const map = (x: number, y: number) => [x * this.scale, element.height - y * this.scale]
-
-    element.addEventListener('pointerdown', (event) => {
-      this.active = true
-      this.pointers.set(event.pointerId, map(event.clientX, event.clientY))
-    })
-
-    element.addEventListener('pointerup', (event) => {
-      if (this.count === 1) this.lastCoords = this.first
-      this.pointers.delete(event.pointerId)
-      this.active = this.pointers.size > 0
-    })
-
-    element.addEventListener('pointerleave', (event) => {
-      if (this.count === 1) this.lastCoords = this.first
-      this.pointers.delete(event.pointerId)
-      this.active = this.pointers.size > 0
-    })
-
-    element.addEventListener('pointermove', (event) => {
-      if (!this.active) return
-      this.lastCoords = [event.clientX, event.clientY]
-      this.pointers.set(event.pointerId, map(event.clientX, event.clientY))
-      this.moves = [this.moves[0] + event.movementX, this.moves[1] + event.movementY]
-    })
-  }
-
-  updateScale(scale: number) { this.scale = scale }
-  get count() { return this.pointers.size }
-  get move() { return this.moves }
-  get coords() { return this.pointers.size > 0 ? Array.from(this.pointers.values()).flat() : [0, 0] }
-  get first() { return this.pointers.values().next().value || this.lastCoords }
-}
-
-function useShaderBackground() {
+function useChromeRedShader() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationFrameRef = useRef<number | null>(null)
-  const rendererRef = useRef<WebGLRenderer | null>(null)
-  const pointersRef = useRef<PointerHandler | null>(null)
+  const frameRef = useRef<number | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion) return
+
+    const gl = canvas.getContext('webgl2')
+    if (!gl) return
+
+    const vertex = `#version 300 es
+precision highp float;
+in vec4 position;
+void main(){gl_Position=position;}`
+
+    const compile = (type: number, source: string) => {
+      const shader = gl.createShader(type)
+      if (!shader) return null
+      gl.shaderSource(shader, source)
+      gl.compileShader(shader)
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(shader))
+        gl.deleteShader(shader)
+        return null
+      }
+      return shader
+    }
+
+    const vs = compile(gl.VERTEX_SHADER, vertex)
+    const fs = compile(gl.FRAGMENT_SHADER, chromeRedShaderSource)
+    const program = gl.createProgram()
+    if (!vs || !fs || !program) return
+
+    gl.attachShader(program, vs)
+    gl.attachShader(program, fs)
+    gl.linkProgram(program)
+
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(program))
+      return
+    }
+
+    const buffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, 1, -1, -1, 1, 1, 1, -1]), gl.STATIC_DRAW)
+
+    const position = gl.getAttribLocation(program, 'position')
+    gl.enableVertexAttribArray(position)
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
+
+    const resolution = gl.getUniformLocation(program, 'resolution')
+    const time = gl.getUniformLocation(program, 'time')
+    const pointer = gl.getUniformLocation(program, 'pointer')
+    let pointerCoords = [0, 0]
 
     const resize = () => {
-      const dpr = Math.max(1, 0.5 * window.devicePixelRatio)
+      const dpr = Math.max(1, Math.min(1.5, window.devicePixelRatio * 0.55))
       canvas.width = window.innerWidth * dpr
       canvas.height = window.innerHeight * dpr
-      rendererRef.current?.updateScale(dpr)
-      pointersRef.current?.updateScale(dpr)
+      canvas.style.width = '100%'
+      canvas.style.height = '100%'
+      gl.viewport(0, 0, canvas.width, canvas.height)
     }
 
-    const loop = (now: number) => {
-      if (!rendererRef.current || !pointersRef.current) return
-      rendererRef.current.updateMouse(pointersRef.current.first)
-      rendererRef.current.updatePointerCount(pointersRef.current.count)
-      rendererRef.current.updatePointerCoords(pointersRef.current.coords)
-      rendererRef.current.updateMove(pointersRef.current.move)
-      rendererRef.current.render(now)
-      animationFrameRef.current = requestAnimationFrame(loop)
+    const onPointerMove = (event: PointerEvent) => {
+      pointerCoords = [event.clientX, window.innerHeight - event.clientY]
     }
 
-    try {
-      const dpr = Math.max(1, 0.5 * window.devicePixelRatio)
-      rendererRef.current = new WebGLRenderer(canvas, dpr)
-      pointersRef.current = new PointerHandler(canvas, dpr)
-      rendererRef.current.setup()
-      rendererRef.current.init()
-      resize()
-      loop(0)
-    } catch (error) {
-      console.error(error)
+    const render = (now: number) => {
+      gl.clearColor(0, 0, 0, 1)
+      gl.clear(gl.COLOR_BUFFER_BIT)
+      gl.useProgram(program)
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+      gl.uniform2f(resolution, canvas.width, canvas.height)
+      gl.uniform1f(time, now * 0.001)
+      gl.uniform2f(pointer, pointerCoords[0], pointerCoords[1])
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+      frameRef.current = requestAnimationFrame(render)
     }
 
+    resize()
     window.addEventListener('resize', resize)
+    window.addEventListener('pointermove', onPointerMove)
+    frameRef.current = requestAnimationFrame(render)
 
     return () => {
       window.removeEventListener('resize', resize)
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current)
-      rendererRef.current?.reset()
+      window.removeEventListener('pointermove', onPointerMove)
+      if (frameRef.current) cancelAnimationFrame(frameRef.current)
+      gl.deleteBuffer(buffer)
+      gl.deleteProgram(program)
+      gl.deleteShader(vs)
+      gl.deleteShader(fs)
     }
   }, [])
 
@@ -256,16 +119,23 @@ function useShaderBackground() {
 }
 
 function Hero({ trustBadge, headline, subtitle, buttons, className = '' }: HeroProps) {
-  const canvasRef = useShaderBackground()
+  const canvasRef = useChromeRedShader()
 
   return (
     <section className={`chrome-hero ${className}`}>
+      <style>{chromeHeroStyles}</style>
       <canvas ref={canvasRef} className="chrome-hero-canvas" aria-hidden="true" />
       <div className="chrome-hero-vignette" aria-hidden="true" />
+      <div className="chrome-red-beam" aria-hidden="true" />
+
       <div className="chrome-hero-content">
         {trustBadge && (
           <div className="chrome-trust-badge">
-            {trustBadge.icons && <div className="chrome-trust-icons">{trustBadge.icons.map((icon, index) => <span key={index}>{icon}</span>)}</div>}
+            {trustBadge.icons && (
+              <div className="chrome-trust-icons">
+                {trustBadge.icons.map((icon, index) => <span key={index}>{icon}</span>)}
+              </div>
+            )}
             <span>{trustBadge.text}</span>
           </div>
         )}
@@ -302,11 +172,210 @@ export function CinematicShaderHomepage() {
   )
 }
 
+const chromeHeroStyles = `
+.chrome-hero {
+  position: relative;
+  width: 100%;
+  min-height: calc(100svh - 78px);
+  overflow: hidden;
+  background: #000;
+  isolation: isolate;
+}
+
+.chrome-hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  touch-action: none;
+  z-index: 0;
+}
+
+.chrome-hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(208, 24, 36, 0.05), transparent 22rem),
+    radial-gradient(circle at 50% 50%, transparent 0 34%, rgba(0, 0, 0, 0.72) 84%),
+    linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.1) 35%, rgba(0,0,0,.78));
+  pointer-events: none;
+}
+
+.chrome-red-beam {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: min(980px, 82vw);
+  height: 2px;
+  transform: translate(-50%, -50%) rotate(-7deg);
+  background: linear-gradient(90deg, transparent, rgba(128, 7, 17, .2), rgba(226, 34, 48, .92), rgba(238, 232, 224, .74), rgba(226, 34, 48, .4), transparent);
+  filter: blur(.4px) drop-shadow(0 0 28px rgba(226, 34, 48, .55));
+  animation: chromeBeam 5.4s cubic-bezier(.22,1,.36,1) infinite;
+  opacity: .8;
+}
+
+.chrome-hero-content {
+  position: relative;
+  z-index: 3;
+  min-height: calc(100svh - 78px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f4efe7;
+  padding: clamp(28px, 5vw, 72px) 20px;
+}
+
+.chrome-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  margin-bottom: 34px;
+  border: 1px solid rgba(238, 232, 224, .22);
+  border-radius: 999px;
+  color: rgba(244, 239, 231, .86);
+  background: linear-gradient(135deg, rgba(208, 24, 36, .14), rgba(244, 239, 231, .045));
+  backdrop-filter: blur(18px) saturate(135%);
+  box-shadow: 0 18px 70px rgba(208, 24, 36, .14);
+  animation: fadeDown .85s ease-out both;
+}
+
+.chrome-trust-icons {
+  display: flex;
+  gap: 2px;
+  color: #e22230;
+  text-shadow: 0 0 18px rgba(226, 34, 48, .8);
+}
+
+.chrome-headline-wrap {
+  display: grid;
+  gap: 8px;
+  width: min(1100px, 100%);
+}
+
+.chrome-headline {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(3.6rem, 9vw, 9.3rem);
+  font-weight: 700;
+  line-height: .88;
+  letter-spacing: -.065em;
+  animation: fadeUp .9s ease-out both;
+}
+
+.chrome-headline-primary {
+  background: linear-gradient(90deg, #f7f3ed, #d6dde5 22%, #e22230 50%, #eef1f4 72%, #8b0e16);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 50px rgba(226, 34, 48, .14);
+  animation-delay: .18s;
+}
+
+.chrome-headline-secondary {
+  background: linear-gradient(90deg, #8b0e16, #e22230 28%, #f4efe7 55%, #b8c0c8 74%, #5a0710);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation-delay: .36s;
+}
+
+.chrome-subtitle {
+  max-width: 820px;
+  margin: 28px auto 0;
+  color: rgba(244, 239, 231, .78);
+  font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+  line-height: 1.8;
+  font-weight: 400;
+  animation: fadeUp .9s ease-out .58s both;
+}
+
+.chrome-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 38px;
+  animation: fadeUp .9s ease-out .78s both;
+}
+
+.chrome-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 26px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 900;
+  transition: transform .32s ease, border-color .32s ease, box-shadow .32s ease;
+}
+
+.chrome-button:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.chrome-button-primary {
+  color: #f8f2ea;
+  background: linear-gradient(135deg, #e22230, #8b0e16 58%, #3a0307);
+  box-shadow: 0 22px 70px rgba(226, 34, 48, .30), inset 0 1px 0 rgba(255,255,255,.24);
+}
+
+.chrome-button-secondary {
+  color: rgba(244, 239, 231, .94);
+  border: 1px solid rgba(244, 239, 231, .22);
+  background: rgba(244, 239, 231, .055);
+  backdrop-filter: blur(14px);
+}
+
+.chrome-button-secondary:hover {
+  border-color: rgba(226, 34, 48, .62);
+  box-shadow: 0 18px 55px rgba(226, 34, 48, .18);
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes chromeBeam {
+  0%, 100% { opacity: 0; transform: translate(-56%, -50%) rotate(-7deg) scaleX(.5); }
+  45%, 65% { opacity: .9; }
+  52% { transform: translate(-44%, -50%) rotate(-7deg) scaleX(1.08); }
+}
+
+@media (max-width: 760px) {
+  .chrome-hero, .chrome-hero-content { min-height: calc(100svh - 66px); }
+  .chrome-trust-badge { margin-bottom: 26px; padding: 10px 16px; font-size: .82rem; }
+  .chrome-headline { font-size: clamp(3.25rem, 16vw, 5.2rem); }
+  .chrome-subtitle { font-size: 1rem; margin-top: 22px; }
+  .chrome-actions { flex-direction: column; width: min(100%, 360px); }
+  .chrome-button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome-red-beam, .chrome-trust-badge, .chrome-headline, .chrome-subtitle, .chrome-actions { animation: none !important; }
+}
+`
+
 const chromeRedShaderSource = `#version 300 es
 precision highp float;
 out vec4 O;
 uniform vec2 resolution;
 uniform float time;
+uniform vec2 pointer;
 #define FC gl_FragCoord.xy
 #define T time
 #define R resolution
@@ -342,20 +411,23 @@ float clouds(vec2 p) {
 }
 void main(void) {
   vec2 uv=(FC-.5*R)/MN,st=uv*vec2(2,1);
+  vec2 mouse=(pointer-.5*R)/MN;
   vec3 col=vec3(0);
-  float bg=clouds(vec2(st.x+T*.5,-st.y));
-  uv*=1.-.3*(sin(T*.2)*.5+.5);
+  float bg=clouds(vec2(st.x+T*.45,-st.y));
+  uv*=1.-.28*(sin(T*.2)*.5+.5);
+  uv += mouse*.025;
   for (float i=1.; i<12.; i++) {
-    uv+=.1*cos(i*vec2(.1+.01*i, .8)+i*i+T*.5+.1*uv.x);
+    uv+=.1*cos(i*vec2(.1+.01*i,.8)+i*i+T*.5+.1*uv.x);
     vec2 p=uv;
     float d=length(p);
-    vec3 chromeRed=vec3(0.58,0.03,0.065);
-    vec3 pearlChrome=vec3(0.88,0.88,0.92);
-    col+=.00135/d*(chromeRed + .35*pearlChrome);
+    vec3 chromeRed=vec3(.70,.025,.055);
+    vec3 pearlChrome=vec3(.86,.88,.92);
+    col+=.00135/d*(chromeRed+.32*pearlChrome);
     float b=noise(i+p+bg*1.731);
-    col+=.0022*b/length(max(p,vec2(b*p.x*.02,p.y)))*(vec3(0.9,0.12,0.16));
-    col=mix(col,vec3(bg*.30,bg*.035,bg*.055),d);
+    col+=.0022*b/length(max(p,vec2(b*p.x*.02,p.y)))*vec3(.92,.08,.12);
+    col=mix(col,vec3(bg*.31,bg*.028,bg*.045),d);
   }
-  col += pow(max(0., 1. - length((FC-.5*R)/MN)), 4.) * vec3(.28,.02,.04);
+  float vignette=pow(max(0.,1.-length((FC-.5*R)/MN)),3.8);
+  col+=vignette*vec3(.22,.015,.03);
   O=vec4(col,1);
 }`
