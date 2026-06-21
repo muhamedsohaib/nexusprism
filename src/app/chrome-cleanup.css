@@ -4,11 +4,87 @@
   display: none !important;
 }
 
+html:has(.chrome-hero),
+body:has(.chrome-hero) {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+body:has(.chrome-hero) .site-footer {
+  display: none !important;
+}
+
+body:has(.chrome-hero) main,
 .chrome-hero,
 .chrome-hero-content {
   height: calc(100svh - 78px) !important;
   min-height: 0 !important;
+  max-height: calc(100svh - 78px) !important;
   overflow: hidden !important;
+}
+
+.chrome-hero-content {
+  padding-top: clamp(18px, 4vh, 44px) !important;
+  padding-bottom: clamp(18px, 4vh, 44px) !important;
+}
+
+.chrome-copy-panel {
+  width: min(460px, 100%) !important;
+  transform: none !important;
+}
+
+.chrome-trust-icons {
+  display: none !important;
+}
+
+.chrome-trust-badge {
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+  padding: 6px 11px 6px 7px !important;
+  font-size: .5rem !important;
+  line-height: 1 !important;
+}
+
+.chrome-trust-badge::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  border-radius: 999px;
+  background-image: url('/nexus-prism-logo.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 8px rgba(255, 50, 66, .34));
+}
+
+.chrome-headline {
+  font-size: clamp(1.35rem, 2.55vw, 2.58rem) !important;
+  line-height: .92 !important;
+}
+
+.chrome-headline-wrap {
+  gap: 4px !important;
+}
+
+.chrome-subtitle {
+  margin-top: 10px !important;
+  max-width: 330px !important;
+  font-size: clamp(.48rem, .58vw, .58rem) !important;
+  line-height: 1.62 !important;
+}
+
+.chrome-actions {
+  gap: 8px !important;
+  margin-top: 16px !important;
+}
+
+.chrome-button {
+  min-height: 30px !important;
+  padding: 0 13px !important;
+  font-size: .48rem !important;
 }
 
 .chrome-prism-core img {
@@ -21,4 +97,50 @@
 
 .chrome-hero::after {
   content: "";
+}
+
+@media (max-width: 760px) {
+  body:has(.chrome-hero) main,
+  .chrome-hero,
+  .chrome-hero-content {
+    height: calc(100svh - 66px) !important;
+    max-height: calc(100svh - 66px) !important;
+  }
+
+  .chrome-hero-content {
+    padding: 18px 16px !important;
+  }
+
+  .chrome-copy-panel {
+    width: min(300px, 100%) !important;
+  }
+
+  .chrome-trust-badge {
+    margin-bottom: 12px !important;
+    font-size: .48rem !important;
+  }
+
+  .chrome-trust-badge::before {
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+  }
+
+  .chrome-headline {
+    font-size: clamp(1.35rem, 6vw, 2.05rem) !important;
+  }
+
+  .chrome-subtitle {
+    max-width: 270px !important;
+    font-size: .52rem !important;
+  }
+
+  .chrome-actions {
+    margin-top: 13px !important;
+  }
+
+  .chrome-button {
+    min-height: 32px !important;
+    font-size: .5rem !important;
+  }
 }
