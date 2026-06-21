@@ -5,6 +5,7 @@ import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { site } from '@/lib/constants'
 import './globals.css'
+import './chrome-cleanup.css'
 
 const display = Cormorant_Garamond({
   subsets: ['latin'],
