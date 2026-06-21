@@ -1,5 +1,5 @@
-import { CommerceHomepage } from '@/components/commerce-command-center'
+import { CinematicShaderHomepage } from '@/components/cinematic-shader-homepage'
 
 export default function HomePage() {
-  return <CommerceHomepage />
+  return <CinematicShaderHomepage />
 }
