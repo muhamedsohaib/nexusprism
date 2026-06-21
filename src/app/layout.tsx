@@ -6,6 +6,7 @@ import { SiteHeader } from '@/components/site-header'
 import { ThemeProvider } from '@/components/theme-provider'
 import { site } from '@/lib/constants'
 import './globals.css'
+import './dotted-surface.css'
 
 const display = Cormorant_Garamond({
   subsets: ['latin'],
