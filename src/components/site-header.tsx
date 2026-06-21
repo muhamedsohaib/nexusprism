@@ -1,13 +1,14 @@
 import Link from 'next/link'
 import { navItems, site, whatsappLink } from '@/lib/constants'
-import { nexusPrismLogoSrc } from '@/lib/logo-data'
+
+const markSrc = '/' + 'nexus-prism-logo-actual.svg'
 
 export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container nav-shell">
         <Link className="brand" href="/" aria-label="Nexus Prism home">
-          <span className="brand-mark image-mark" aria-hidden="true"><img src={nexusPrismLogoSrc} alt="" /></span>
+          <span className="brand-mark image-mark" aria-hidden="true"><img src={markSrc} alt="" /></span>
           <span className="brand-copy">
             <strong>{site.name}</strong>
             <small>{site.tagline}</small>
