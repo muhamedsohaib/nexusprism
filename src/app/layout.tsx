@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { Cormorant_Garamond, Manrope, Noto_Sans_Arabic } from 'next/font/google'
 import { SiteFooter } from '@/components/site-footer'
@@ -24,6 +24,14 @@ const arabic = Noto_Sans_Arabic({
   variable: '--font-arabic',
   weight: ['400', '500', '600', '700', '800']
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#000000',
+  colorScheme: 'dark',
+  viewportFit: 'cover'
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
