@@ -4,7 +4,6 @@
 .chrome-static-aura,
 .chrome-grid,
 .chrome-hero-vignette,
-.chrome-hero-canvas,
 .chrome-trust-badge {
   display: none !important;
 }
@@ -32,7 +31,15 @@ body:has(.chrome-hero) main,
 }
 
 .chrome-hero {
-  background: linear-gradient(135deg, #020000 0%, #050001 48%, #000 100%) !important;
+  background: #000 !important;
+}
+
+.chrome-hero-canvas {
+  display: block !important;
+  z-index: 1 !important;
+  opacity: .92 !important;
+  mix-blend-mode: screen !important;
+  filter: saturate(1.12) contrast(1.08) brightness(.92) !important;
 }
 
 .chrome-hero-content {
