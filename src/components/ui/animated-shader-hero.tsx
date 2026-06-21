@@ -16,13 +16,13 @@ type HeroProps = {
 }
 
 const shaderParts = {
-  clouds: 1,
+  clouds: 0.45,
   cloudSpeed: 0.5,
-  particles: 1,
+  particles: 1.35,
   particleSpeed: 0.5,
   red: 1,
-  green: 1,
-  blue: 1,
+  green: 0.58,
+  blue: 0.52,
   brightness: 1
 }
 
@@ -225,9 +225,11 @@ void main(void) {
     uv+=.1*cos(i*vec2(.1+.01*i, .8)+i*i+T*particleSpeed+.1*uv.x);
     vec2 p=uv;
     float d=length(p);
-    col+=.00125*particlesAmount/d*(cos(sin(i)*vec3(1,2,3))+1.)*componentTint;
-    float b=noise(i+p+bg*1.731);
-    col+=.002*particlesAmount*b/length(max(p,vec2(b*p.x*.02,p.y)))*componentTint;
+    col+=.00125/d*(cos(sin(i)*vec3(1,2,3))+1.)*componentTint;
+    float b=noise(i+p*particlesAmount+bg*1.731);
+    float fine=noise(i*1.73+p*particlesAmount*1.65+T*.06);
+    b=mix(b,fine,.35);
+    col+=.002*b/length(max(p,vec2(b*p.x*.02,p.y)))*componentTint;
     col=mix(col,vec3(bg*.25,bg*.137,bg*.05),d);
   }
   O=vec4(col*brightness,1);
