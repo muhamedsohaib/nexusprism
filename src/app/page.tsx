@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { CinematicShaderHomepage } from '@/components/cinematic-shader-homepage'
 
 export default function HomePage() {
@@ -7,6 +8,10 @@ export default function HomePage() {
         <img src="/nexus-prism-logo.png" alt="" />
       </div>
       <CinematicShaderHomepage />
+      <Link className="bottom-score-cta" href="/score" aria-label="Get your score">
+        <span className="bottom-score-logo" aria-hidden="true" />
+        <span>Get your score</span>
+      </Link>
     </>
   )
 }
