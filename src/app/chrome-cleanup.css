@@ -8,10 +8,10 @@
   visibility: hidden !important;
 }
 
-/* Increase the light intensity of the horizontal fireball streaks without restoring the removed shapes. */
+/* Balanced fireball streaks: visible, cinematic, but not overpowering. */
 .chrome-hero-canvas {
-  opacity: 1 !important;
-  filter: brightness(1.38) saturate(1.28) contrast(1.08) !important;
+  opacity: .9 !important;
+  filter: brightness(1.14) saturate(1.14) contrast(1.03) !important;
 }
 
 .chrome-hero::before {
@@ -20,29 +20,29 @@
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  opacity: .92;
+  opacity: .48;
   mix-blend-mode: screen;
   background:
-    radial-gradient(ellipse at 0% 22%, rgba(255, 244, 238, .95) 0 1px, rgba(255, 64, 75, .76) 3px, transparent 19px),
-    linear-gradient(90deg, rgba(255, 244, 238, .88), rgba(255, 74, 85, .62) 16%, rgba(255, 74, 85, .22) 43%, transparent 68%) 0 22% / 365px 3px no-repeat,
-    radial-gradient(ellipse at 0% 37%, rgba(255, 244, 238, .9) 0 1px, rgba(255, 64, 75, .7) 3px, transparent 17px),
-    linear-gradient(90deg, rgba(255, 244, 238, .82), rgba(255, 74, 85, .58) 18%, rgba(255, 74, 85, .22) 48%, transparent 70%) 0 37% / 395px 3px no-repeat,
-    radial-gradient(ellipse at 0% 48%, rgba(255, 244, 238, .84) 0 1px, rgba(255, 64, 75, .64) 3px, transparent 16px),
-    linear-gradient(90deg, rgba(255, 244, 238, .76), rgba(255, 74, 85, .54) 18%, rgba(255, 74, 85, .18) 48%, transparent 74%) 0 48% / 345px 3px no-repeat,
-    linear-gradient(90deg, rgba(255, 44, 58, .64), rgba(255, 44, 58, .30) 34%, transparent 76%) 0 61% / 510px 2px no-repeat;
-  filter: blur(.2px) drop-shadow(0 0 10px rgba(255, 45, 60, .92)) drop-shadow(0 0 26px rgba(255, 45, 60, .48));
+    radial-gradient(ellipse at 0% 22%, rgba(255, 244, 238, .56) 0 1px, rgba(255, 64, 75, .42) 3px, transparent 15px),
+    linear-gradient(90deg, rgba(255, 244, 238, .48), rgba(255, 74, 85, .34) 16%, rgba(255, 74, 85, .12) 43%, transparent 68%) 0 22% / 300px 2px no-repeat,
+    radial-gradient(ellipse at 0% 37%, rgba(255, 244, 238, .54) 0 1px, rgba(255, 64, 75, .38) 3px, transparent 14px),
+    linear-gradient(90deg, rgba(255, 244, 238, .44), rgba(255, 74, 85, .32) 18%, rgba(255, 74, 85, .12) 48%, transparent 70%) 0 37% / 330px 2px no-repeat,
+    radial-gradient(ellipse at 0% 48%, rgba(255, 244, 238, .46) 0 1px, rgba(255, 64, 75, .34) 3px, transparent 13px),
+    linear-gradient(90deg, rgba(255, 244, 238, .38), rgba(255, 74, 85, .28) 18%, rgba(255, 74, 85, .10) 48%, transparent 74%) 0 48% / 285px 2px no-repeat,
+    linear-gradient(90deg, rgba(255, 44, 58, .30), rgba(255, 44, 58, .14) 34%, transparent 76%) 0 61% / 430px 1px no-repeat;
+  filter: blur(.15px) drop-shadow(0 0 6px rgba(255, 45, 60, .54)) drop-shadow(0 0 14px rgba(255, 45, 60, .24));
 }
 
 @media (max-width: 760px) {
   .chrome-hero::before {
-    opacity: .78;
+    opacity: .38;
     background-size:
       auto,
-      250px 3px,
+      220px 2px,
       auto,
-      285px 3px,
+      250px 2px,
       auto,
-      250px 3px,
-      330px 2px;
+      220px 2px,
+      300px 1px;
   }
 }
