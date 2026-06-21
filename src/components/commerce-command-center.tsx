@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { DottedSurface } from '@/components/dotted-surface'
 import { capabilities, proofItems, services, whatsappLink } from '@/lib/constants'
 import { ScoreForm } from '@/components/score-form'
 
 export function HeroCommandCenter() {
   return (
     <section className="hero-section" id="top">
+      <DottedSurface className="hero-dotted-surface" />
       <div className="aura aura-gold" />
       <div className="aura aura-cyan" />
       <div className="prism-beam" />
