@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { Cormorant_Garamond, Manrope, Noto_Sans_Arabic } from 'next/font/google'
-import { SiteFooter } from '@/components/site-footer'
-import { SiteHeader } from '@/components/site-header'
+import { AppShell } from '@/components/app-shell'
 import { ThemeProvider } from '@/components/theme-provider'
 import { site } from '@/lib/constants'
 import './globals.css'
@@ -53,9 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <ThemeProvider>
           <div className="page-noise" aria-hidden="true" />
-          <SiteHeader />
-          <main>{children}</main>
-          <SiteFooter />
+          <AppShell>{children}</AppShell>
         </ThemeProvider>
       </body>
     </html>
