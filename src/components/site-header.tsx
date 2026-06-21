@@ -8,7 +8,9 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container nav-shell">
         <Link className="brand" href="/" aria-label="Nexus Prism home">
-          <span className="brand-mark image-mark" aria-hidden="true"><img src={markSrc} alt="" /></span>
+          <span className="brand-mark image-mark" aria-hidden="true">
+            <img src={markSrc} alt="" style={{ width: '86%', height: '86%', objectFit: 'contain' }} />
+          </span>
           <span className="brand-copy">
             <strong>{site.name}</strong>
             <small>{site.tagline}</small>
