@@ -154,7 +154,7 @@ Each rule includes:
 - **161 Color Palettes** - Industry-specific palettes aligned 1:1 with the 161 product types
 - **57 Font Pairings** - Curated typography combinations with Google Fonts imports
 - **25 Chart Types** - Recommendations for dashboards and analytics
-- **15 Tech Stacks** - React, Next.js, Astro, Vue, Nuxt.js, Nuxt UI, Svelte, SwiftUI, React Native, Flutter, HTML+Tailwind, shadcn/ui, Jetpack Compose, Angular, Laravel
+- **16 Tech Stacks** - React, Next.js, Astro, Vue, Nuxt.js, Nuxt UI, Svelte, SwiftUI, React Native, Flutter, HTML+Tailwind, shadcn/ui, Jetpack Compose, Angular, Laravel, JavaFX
 - **99 UX Guidelines** - Best practices, anti-patterns, and accessibility rules
 - **161 Reasoning Rules** - Industry-specific design system generation (NEW in v2.0)
 
@@ -387,6 +387,7 @@ The skill provides stack-specific guidelines for:
 | **Angular** | Angular |
 | **PHP** | Laravel (Blade, Livewire, Inertia.js) |
 | **Other Web** | Svelte, Astro |
+| **Desktop** | JavaFX |
 | **iOS** | SwiftUI |
 | **Android** | Jetpack Compose |
 | **Cross-Platform** | React Native, Flutter |
@@ -414,6 +415,9 @@ python3 .claude/skills/ui-ux-pro-max/scripts/search.py "dashboard" --domain char
 # Stack-specific guidelines
 python3 .claude/skills/ui-ux-pro-max/scripts/search.py "form validation" --stack react
 python3 .claude/skills/ui-ux-pro-max/scripts/search.py "responsive layout" --stack html-tailwind
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "tableview binding" --stack javafx
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "atlantafx primer enterprise theme" --stack javafx
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "enterprise tableview density permission" --stack javafx
 ```
 
 ### Persist Design System (Master + Overrides Pattern)
