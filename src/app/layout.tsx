@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import { Cormorant_Garamond, Manrope, Noto_Sans_Arabic } from 'next/font/google'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
   }
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en-AE" className={`${display.variable} ${sans.variable} ${arabic.variable}`}>
       <body>
