@@ -1,0 +1,39 @@
+.hero-section {
+  isolation: isolate;
+}
+
+.hero-dotted-surface {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -3 !important;
+  width: 100%;
+  height: 100%;
+  opacity: 0.42;
+  transform: translateY(8%) rotateX(8deg);
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(circle at 50% 38%, #000 0 48%, transparent 78%);
+}
+
+.hero-dotted-surface canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 62% 36%, rgba(243, 221, 169, 0.16), transparent 32rem),
+    linear-gradient(180deg, rgba(6, 8, 13, 0.08), rgba(6, 8, 13, 0.82));
+}
+
+@media (max-width: 620px) {
+  .hero-dotted-surface {
+    opacity: 0.28;
+    transform: translateY(12%);
+  }
+}
