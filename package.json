@@ -10,14 +10,19 @@
     "lint": "echo \"No separate lint config yet; run npm run build for type and production checks.\""
   },
   "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
     "motion": "latest",
     "next": "latest",
+    "ora": "^8.1.1",
+    "prompts": "^2.4.2",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",
     "@types/node": "latest",
+    "@types/prompts": "^2.4.9",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "eslint": "latest",
