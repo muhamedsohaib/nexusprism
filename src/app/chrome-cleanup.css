@@ -8,13 +8,20 @@
   display: none !important;
 }
 
+html,
+body {
+  background: #000 !important;
+}
+
 html:has(.chrome-hero),
 body:has(.chrome-hero) {
   width: 100% !important;
-  height: 100% !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
   overflow: hidden !important;
   overscroll-behavior: none !important;
   touch-action: none !important;
+  background: #000 !important;
 }
 
 body:has(.chrome-hero) .site-footer {
@@ -24,10 +31,11 @@ body:has(.chrome-hero) .site-footer {
 body:has(.chrome-hero) main,
 .chrome-hero,
 .chrome-hero-content {
-  height: calc(100svh - 78px) !important;
+  height: calc(100dvh - 78px) !important;
   min-height: 0 !important;
-  max-height: calc(100svh - 78px) !important;
+  max-height: calc(100dvh - 78px) !important;
   overflow: hidden !important;
+  background: #000 !important;
 }
 
 .chrome-hero {
@@ -165,7 +173,7 @@ body:has(.chrome-hero) main,
 .bottom-score-cta {
   position: fixed;
   left: 50%;
-  bottom: clamp(18px, 4vh, 34px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
   z-index: 20;
   display: inline-flex;
   align-items: center;
@@ -226,12 +234,12 @@ body:has(.chrome-hero) main,
   body:has(.chrome-hero) main,
   .chrome-hero,
   .chrome-hero-content {
-    height: calc(100svh - 66px) !important;
-    max-height: calc(100svh - 66px) !important;
+    height: calc(100dvh - 66px) !important;
+    max-height: calc(100dvh - 66px) !important;
   }
 
   .chrome-hero-content {
-    padding: 18px 16px 86px !important;
+    padding: 18px 16px calc(env(safe-area-inset-bottom, 0px) + 86px) !important;
   }
 
   .chrome-copy-panel {
@@ -263,7 +271,7 @@ body:has(.chrome-hero) main,
   }
 
   .bottom-score-cta {
-    bottom: 16px;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
     min-height: 40px;
     padding: 0 19px 0 10px;
     font-size: .72rem;
