@@ -1,0 +1,9 @@
+/* Homepage cleanup requested: remove mountain-like prism overlays and diagonal shine beam. */
+.chrome-prism-core,
+.prism-triangle,
+.prism-ring,
+.chrome-red-beam {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
